@@ -1,0 +1,10 @@
+{
+  "description": "Showcases a multidimensional personal homepage blending engineering, projects, and creative insights to reflect intelligence and individuality for professionals.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

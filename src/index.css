@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+:root {
+  --background: #0d0c0b;
+  --foreground: #ede8e0;
+  --card: #141310;
+  --card-foreground: #ede8e0;
+  --primary: #c8402a;
+  --primary-foreground: #ede8e0;
+  --secondary: #1c1a18;
+  --secondary-foreground: #a89e93;
+  --muted: #1c1a18;
+  --muted-foreground: #7a7168;
+  --accent: #c8402a;
+  --accent-foreground: #ede8e0;
+  --border: #2a2723;
+  --ring: #c8402a;
+  --radius: 2px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+.font-mono-label {
+  font-family: 'DM Mono', monospace;
+}
+
+/* Fade-in animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.anim-fade-up {
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-fade-in {
+  animation: fadeIn 1.2s ease both;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+/* Hairline rule */
+.rule {
+  border-top: 1px solid var(--border);
+}
+
+/* Accent rule */
+.rule-accent {
+  border-top: 1px solid var(--accent);
+}
+
+/* Technical tick marks */
+.tick::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 1px;
+  background: var(--muted-foreground);
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Nav link hover */
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--foreground);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--foreground);
+}
+
+/* Project hover */
+.project-row {
+  border-top: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+.project-row:hover {
+  border-color: var(--accent);
+}
+
+.project-row:hover .proj-index {
+  color: var(--accent);
+}
+
+/* Thought card */
+.thought-mark {
+  width: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Current item hover */
+.current-item {
+  transition: color 0.2s ease;
+}
+
+.current-item:hover {
+  color: var(--foreground);
+}
+
+/* Crosshair annotation */
+.crosshair {
+  position: relative;
+}
+
+.crosshair::before,
+.crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--border);
+}
+
+.crosshair::before {
+  width: 1px;
+  height: 12px;
+  top: -6px;
+  left: 50%;
+}
+
+.crosshair::after {
+  width: 12px;
+  height: 1px;
+  left: calc(50% - 6px);
+  top: 0;
+}
