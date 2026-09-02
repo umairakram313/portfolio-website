@@ -8,41 +8,91 @@ export const NAV_LINKS = [
 export const PROJECTS = [
   {
     index: "01",
-    title: "Autonomous Terrain Navigator",
-    category: "Robotics / Control Systems",
-    year: "2024",
-    tags: ["ROS2", "SLAM", "Embedded C++"],
-    excerpt:
-      "A ground robot capable of mapping and traversing unstructured outdoor terrain using sensor fusion and adaptive path planning.",
+    title: "Modular Self-Reconfigurable Robots",
+    period: "2024–2025",
+    type: "Final Year Design Project",
+    technologies: ["ESP32", "C/C++", "MQTT", "SolidWorks", "UWB"],
+    description:
+      "A modular robotics system designed around physically reconfigurable robotic units, including system architecture, hardware integration, firmware coordination and inter-module communication.",
+    repositories: [
+      {
+        label: "View repository",
+        href: "https://github.com/umairakram313/MSRR_FYDP_Firmware_ESP32_IDF",
+      },
+    ],
+    artifact: "/images/projects/01-msrr-physical-prototype.png",
+    artifactAlt:
+      "Physical prototypes of cylindrical modular self-reconfigurable robot units on a workbench",
+    artifactLabel: "FIG. 01 / PHYSICAL PROTOTYPE",
+    artifactVariant: "msrr",
   },
   {
     index: "02",
-    title: "Haptic Feedback Exoskeleton Glove",
-    category: "Human–Machine Interface",
-    year: "2023",
-    tags: ["Arduino", "PWM", "Flex Sensors"],
-    excerpt:
-      "Wearable system translating grip force readings into proportional haptic cues—designed for teleoperation applications.",
+    title: "Plantation Robot",
+    period: "2023–2024",
+    type: "Embedded Robotics",
+    technologies: ["ATmega2560", "C++", "IR Sensors", "Servo", "DC Motors"],
+    description:
+      "A line-following mobile plantation robot with IR sensing, motor control and a servo-driven lifting mechanism for coordinated navigation and task execution.",
+    repositories: [
+      {
+        label: "View repository",
+        href: "https://github.com/umairakram313/Plantation-Robot-Arduino-Code",
+      },
+    ],
+    artifact: "/images/projects/02-plantation-robot-prototype.png",
+    artifactAlt:
+      "Tall white plantation robot prototype with exposed sensors and wiring on a blue workbench",
+    artifactLabel: "FIG. 02 / ROBOT PROTOTYPE",
+    artifactVariant: "plantation",
   },
   {
     index: "03",
-    title: "ML-Driven Predictive Maintenance",
-    category: "Industrial IoT",
-    year: "2024",
-    tags: ["Python", "TensorFlow", "MQTT"],
-    excerpt:
-      "Vibration signature classification pipeline deployed on edge hardware for real-time bearing fault detection.",
+    title: "Cricket Match Management System",
+    period: "2022–2023",
+    type: "C++ Software System",
+    technologies: ["C++", "OOP", "Data Structures"],
+    description:
+      "A C++ cricket match-management application supporting ball-by-ball scoring, structured match records and player/team performance analysis.",
+    repositories: [
+      {
+        label: "View repository",
+        href: "https://github.com/umairakram313/Cricket-Match-Management-System",
+      },
+    ],
+    artifact: "/images/projects/03-cricket-match-management-terminal.png",
+    artifactAlt:
+      "Terminal output from the Cricket Match Management System showing batting selection and ball-by-ball scoring",
+    artifactLabel: "FIG. 03 / PROGRAM OUTPUT",
+    artifactVariant: "terminal",
   },
   {
     index: "04",
-    title: "Quadruped Gait Optimizer",
-    category: "Biomechanics / Simulation",
-    year: "2023",
-    tags: ["MATLAB", "Simulink", "Genetic Algorithm"],
-    excerpt:
-      "Evolutionary optimization of legged locomotion gaits across varied terrain gradients, benchmarked in simulation.",
+    title: "Water Level Monitoring System",
+    period: "2023",
+    type: "Embedded Monitoring & Control",
+    technologies: ["ESP32", "C/C++", "Ultrasonic Sensor", "LCD", "Blynk"],
+    description:
+      "An ESP32-based monitoring and pump-control system using ultrasonic depth sensing, overflow protection, LCD feedback and cloud monitoring.",
+    repositories: [
+      {
+        label: "Original firmware",
+        href: "https://github.com/umairakram313/Water_Management_System_ESP32_Original_Arduino_Firmware",
+      },
+      {
+        label: "Later ESP-IDF port",
+        href: "https://github.com/umairakram313/Water_Management_System_ESP32_Updated_ESPIDF_Firmware",
+      },
+    ],
+    artifact: "/images/projects/04-water-level-monitoring-bench.png",
+    artifactAlt:
+      "ESP32 water-level monitoring prototype with breadboards, wiring and an illuminated LCD",
+    artifactLabel: "FIG. 04 / EMBEDDED BENCH",
+    artifactVariant: "water",
   },
-]
+] as const
+
+export type Project = typeof PROJECTS[number]
 
 export const THOUGHTS = [
   {
