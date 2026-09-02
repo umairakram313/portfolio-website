@@ -1,51 +1,74 @@
-import { THOUGHTS } from "../../content"
+import { THOUGHTS, type Thought } from "../../content"
 import SectionDivider from "../SectionDivider"
 
+function ThoughtTitle({ thought }: { thought: Thought }) {
+  const destination =
+    thought.status === "PUBLISHED" && thought.slug
+      ? `/thoughts/${thought.slug}`
+      : null
+
+  return (
+    <h3>
+      {destination ? <a href={destination}>{thought.title}</a> : thought.title}
+    </h3>
+  )
+}
+
 export default function ThoughtsSection() {
+  const homepageThoughts = THOUGHTS.filter((thought) => thought.homepage).sort(
+    (a, b) => a.homepage!.order - b.homepage!.order,
+  )
+  const featuredThought = homepageThoughts.find(
+    (thought) => thought.homepage?.role === "featured",
+  )!
+  const secondaryThoughts = homepageThoughts.filter(
+    (thought) => thought.homepage?.role === "secondary",
+  )
+
   return (
     <section
       id="thoughts"
       className="max-w-[1320px] mx-auto px-6 md:px-10 pt-14 pb-0"
+      aria-labelledby="thoughts-heading"
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-        <div className="md:col-span-3">
-          <h2 className="font-display font-light text-[28px] md:text-[36px] tracking-[-0.01em] text-foreground">
-            Thoughts
-          </h2>
-          <p className="font-mono-label text-[10px] tracking-[0.12em] uppercase text-muted-foreground mt-3">
-            Notes on work, systems, and the world
-          </p>
-          <a
-            href="#"
-            className="font-mono-label text-[10px] tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors block mt-8"
-          >
-            All Writing →
-          </a>
-        </div>
-        <div className="md:col-span-9 space-y-0">
-          {THOUGHTS.map((thought) => (
-            <div
-              key={thought.title}
-              className="py-7 border-t border-border hover:border-accent transition-colors duration-200 group cursor-pointer"
-            >
-              <div className="flex items-start gap-4">
-                <div className="thought-mark w-0.5 h-auto self-stretch mt-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                <div>
-                  <p className="font-mono-label text-[10px] tracking-[0.12em] uppercase text-muted-foreground mb-2">
-                    {thought.date}
-                  </p>
-                  <h3 className="font-display font-light text-[19px] md:text-[23px] tracking-[-0.01em] text-foreground group-hover:text-accent transition-colors duration-200 mb-2">
-                    {thought.title}
-                  </h3>
-                  <p className="text-[14px] font-light text-muted-foreground leading-[1.7] max-w-[600px] italic">
-                    "{thought.excerpt}"
-                  </p>
-                </div>
-              </div>
+      <header className="thoughts-heading">
+        <span className="font-mono-label text-[9px] tracking-[0.2em] text-accent">
+          §002
+        </span>
+        <h2 id="thoughts-heading">Thoughts</h2>
+        <span className="thoughts-heading-rule" aria-hidden="true" />
+      </header>
+
+      <div className="thoughts-spread">
+        <article className="thought-featured">
+          <div className="thought-featured-body">
+            <div className="thought-meta">
+              <span>{featuredThought.number}</span>
+              <span>{featuredThought.status}</span>
+              <span>{featuredThought.categories.join(" / ")}</span>
             </div>
+            <ThoughtTitle thought={featuredThought} />
+            <p>{featuredThought.excerpt}</p>
+          </div>
+        </article>
+
+        <div className="thought-secondary-grid">
+          {secondaryThoughts.map((thought) => (
+            <article key={thought.number} className="thought-secondary">
+              <div className="thought-secondary-number" aria-hidden="true">
+                {thought.number}
+              </div>
+              <div className="thought-meta">
+                <span>{thought.status}</span>
+                <span>{thought.categories.join(" / ")}</span>
+              </div>
+              <ThoughtTitle thought={thought} />
+              <p>{thought.excerpt}</p>
+            </article>
           ))}
         </div>
       </div>
+
       <SectionDivider index="003" label="Experience" />
     </section>
   )

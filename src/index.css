@@ -645,11 +645,191 @@ header,
   .project-artifact-water .project-artifact-image-wrap { width: 72%; margin-left: 12%; }
 }
 
-/* Thought card */
-.thought-mark {
-  width: 2px;
+/* Thoughts: small editorial spread */
+.thoughts-heading {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.thoughts-heading h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.thoughts-heading-rule {
+  border-top: 1px solid var(--border);
+  transform: translateY(-0.25rem);
+}
+
+.thoughts-spread {
+  overflow: clip;
+}
+
+.thought-featured {
+  display: grid;
+  border-top: 1px solid var(--border);
+  padding: 2rem 0 3.5rem;
+}
+
+.thought-featured-body {
+  position: relative;
+  z-index: 1;
+}
+
+.thought-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  color: var(--muted-foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.56rem;
+  line-height: 1.5;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.thought-meta span + span {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.thought-meta span + span::before {
+  content: '';
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 0.35rem;
+  height: 1px;
   background: var(--accent);
-  flex-shrink: 0;
+}
+
+.thought-featured h3 {
+  max-width: 11ch;
+  margin-top: 1.1rem;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.85rem, 13.5vw, 5.75rem);
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.thought-featured h3 a,
+.thought-secondary h3 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.thought-featured h3 a:hover,
+.thought-secondary h3 a:hover {
+  color: var(--accent);
+}
+
+.thought-featured-body > p {
+  max-width: 39rem;
+  margin-top: 1.5rem;
+  color: var(--muted-foreground);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1rem, 3.7vw, 1.25rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.thought-secondary-grid {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.thought-secondary {
+  position: relative;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+
+.thought-secondary-number {
+  margin-bottom: 2rem;
+  color: var(--accent);
+  font-family: 'Fraunces', serif;
+  font-size: 2.75rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.thought-secondary h3 {
+  max-width: 18ch;
+  margin-top: 0.9rem;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.65rem, 7vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.thought-secondary > p {
+  max-width: 31rem;
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.87rem;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+@media (min-width: 768px) {
+  .thoughts-heading {
+    margin-bottom: 3.5rem;
+  }
+
+  .thought-featured {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+    min-height: 27rem;
+    padding: 3.5rem 0 4.75rem;
+  }
+
+  .thought-featured-body {
+    grid-column: 2 / span 10;
+    align-self: center;
+  }
+
+  .thought-featured h3 {
+    font-size: clamp(4.5rem, 8vw, 7.5rem);
+  }
+
+  .thought-featured-body > p {
+    margin-left: clamp(1.5rem, 5vw, 5rem);
+  }
+
+  .thought-secondary-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .thought-secondary:first-child {
+    grid-column: 2 / span 5;
+  }
+
+  .thought-secondary:last-child {
+    grid-column: 8 / span 5;
+    margin-top: 4.5rem;
+  }
+
+  .thought-secondary-number {
+    position: absolute;
+    top: 1.25rem;
+    left: -3.5rem;
+    margin: 0;
+  }
 }
 
 /* Current item hover */

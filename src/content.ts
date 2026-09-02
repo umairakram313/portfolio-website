@@ -94,18 +94,53 @@ export const PROJECTS = [
 
 export type Project = typeof PROJECTS[number]
 
-export const THOUGHTS = [
+type ThoughtVisual = {
+  src: string
+  alt: string
+}
+
+export type Thought = {
+  number: string
+  title: string
+  status: "IN PROGRESS" | "PUBLISHED"
+  categories: string[]
+  excerpt: string
+  homepage?: {
+    role: "featured" | "secondary"
+    order: number
+  }
+  visual?: ThoughtVisual
+  slug?: string
+  publishedAt?: string
+}
+
+export const THOUGHTS: Thought[] = [
   {
-    date: "Aug 2026",
-    title: "On the gap between simulation and the physical world",
+    number: "01",
+    title: "Do We All Stand for Humanity?",
+    status: "IN PROGRESS",
+    categories: ["SOCIETY", "ETHICS", "IDENTITY"],
     excerpt:
-      "Every model is a compression. The question is which losses matter—and which silences are acceptable.",
+      "If our opposition to suffering changes depending on who is suffering, what exactly are we standing for?",
+    homepage: { role: "featured", order: 1 },
   },
   {
-    date: "Jun 2026",
-    title: "What robotics taught me about uncertainty",
+    number: "02",
+    title: "Not All Men. Not All Women. Not All Anything.",
+    status: "IN PROGRESS",
+    categories: ["SOCIETY", "GENERALIZATION", "INDIVIDUALITY"],
     excerpt:
-      "A system that knows what it doesn't know is worth more than one that confidently hallucinates solid ground.",
+      "A pattern about a group—even a powerful one—is not automatically a truth about every individual inside it.",
+    homepage: { role: "secondary", order: 2 },
+  },
+  {
+    number: "03",
+    title: "A Year Inside Trading",
+    status: "IN PROGRESS",
+    categories: ["MARKETS", "EXPERIENCE", "SYSTEMS"],
+    excerpt:
+      "I entered trading curious about what actually works. Nearly a year later, the reality looked considerably different from the industry surrounding it.",
+    homepage: { role: "secondary", order: 3 },
   },
 ]
 
