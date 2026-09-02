@@ -1004,13 +1004,299 @@ header,
   }
 }
 
-/* Current item hover */
-.current-item {
-  transition: color 0.2s ease;
+/* Currently: editorial desk and cultural noticeboard */
+.currently-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.75rem;
 }
 
-.current-item:hover {
-  color: var(--foreground);
+.currently-heading-title {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.currently-heading h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.125rem, 5vw, 2.75rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.currently-heading > p {
+  display: none;
+  color: var(--muted-foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.currently-desk {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.current-signal {
+  position: relative;
+  min-width: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.current-signal-label {
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.56rem;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.current-signal-body h3 {
+  margin-top: 0.75rem;
+  font-family: 'Fraunces', serif;
+  font-size: 1.65rem;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.current-signal-body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.current-signal-body > p {
+  max-width: 31rem;
+  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.current-signal-mark {
+  display: block;
+  margin-top: 1.25rem;
+}
+
+.current-signal-book {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.current-signal-book .current-signal-label {
+  margin-bottom: 0.75rem;
+}
+
+.current-signal-book .current-signal-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: min(72vw, 16rem);
+  aspect-ratio: 3 / 4;
+  padding: 2rem 1.75rem 1.75rem 2.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 10px 12px 0 var(--artifact-paper-back);
+}
+
+.current-signal-book .current-signal-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.8rem;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.75;
+}
+
+.current-signal-book .current-signal-body::after {
+  content: 'CURRENT READING';
+  position: absolute;
+  top: 1.4rem;
+  left: 2.25rem;
+  color: var(--subtle);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.14em;
+}
+
+.current-signal-book .current-signal-body h3 {
+  font-size: clamp(2.8rem, 14vw, 4.6rem);
+  font-style: italic;
+  line-height: 0.9;
+}
+
+.current-signal-book .current-signal-body > p {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.current-signal-statement h3 {
+  max-width: 10ch;
+  font-size: clamp(2.6rem, 12vw, 4.8rem);
+  font-style: italic;
+  line-height: 0.94;
+}
+
+.current-signal-statement .current-signal-mark {
+  width: 38%;
+  height: 1px;
+  background: var(--accent);
+}
+
+.current-signal-exploration h3 {
+  max-width: 8ch;
+  font-size: clamp(3.1rem, 15vw, 5.8rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.current-signal-exploration .current-signal-mark {
+  width: 1px;
+  height: 3rem;
+  margin-left: 55%;
+  background: var(--accent);
+}
+
+.current-signal-track .current-signal-mark {
+  width: 100%;
+  height: 0.65rem;
+  background: repeating-linear-gradient(90deg, var(--border) 0 1px, transparent 1px 5px);
+  mask-image: linear-gradient(180deg, transparent 15%, #000 15% 85%, transparent 85%);
+}
+
+.current-signal-note .current-signal-mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid var(--accent);
+}
+
+.current-signal-route .current-signal-body h3 {
+  font-size: clamp(1.8rem, 8.5vw, 3.25rem);
+  white-space: nowrap;
+}
+
+.current-signal-route .current-signal-body > p {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.current-signal-route .current-signal-mark {
+  position: relative;
+  width: min(100%, 23rem);
+  height: 1px;
+  background: var(--border);
+}
+
+.current-signal-route .current-signal-mark::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+@media (min-width: 560px) {
+  .currently-desk {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.5rem 2rem;
+  }
+
+  .current-signal-primary,
+  .current-signal-route {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .currently-heading > p {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .currently-heading {
+    margin-bottom: 4rem;
+  }
+
+  .currently-desk {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 3rem 1.5rem;
+    align-items: start;
+  }
+
+  .current-signal-book {
+    grid-column: 1 / span 4;
+    grid-row: 1 / span 2;
+  }
+
+  .current-signal-book .current-signal-body {
+    width: min(100%, 17rem);
+  }
+
+  .current-signal-statement {
+    grid-column: 5 / span 6;
+    grid-row: 2;
+    margin-top: 2.5rem;
+  }
+
+  .current-signal-exploration {
+    grid-column: 7 / span 6;
+    grid-row: 1;
+  }
+
+  .current-signal-track {
+    grid-column: 1 / span 3;
+    grid-row: 3;
+  }
+
+  .current-signal-note {
+    grid-column: 9 / span 4;
+    grid-row: 3;
+    margin-top: 2rem;
+  }
+
+  .current-signal-route {
+    grid-column: 3 / span 5;
+    grid-row: 4;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .current-signal-body,
+  .current-signal-mark {
+    transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .current-signal:hover .current-signal-body {
+    transform: translateY(-2px);
+  }
+
+  .current-signal:hover .current-signal-mark {
+    transform: translateX(4px);
+  }
+
+  .current-signal:hover h3 {
+    color: var(--accent);
+  }
 }
 
 /* Crosshair annotation */

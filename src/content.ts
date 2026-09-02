@@ -188,11 +188,84 @@ export const EXPERIENCES: Experience[] = [
   },
 ]
 
-export const CURRENTS = [
-  { label: "Reading", value: "The Body Keeps the Score — Bessel van der Kolk" },
-  { label: "Exploring", value: "Probabilistic Robotics, Thrun et al." },
-  { label: "Listening", value: "Nils Frahm — All Melody" },
-  { label: "Location", value: "Rawalpindi, Pakistan" },
+type CurrentVisual = {
+  src: string
+  alt: string
+}
+
+export type CurrentSignal = {
+  id: string
+  label: string
+  primary: string
+  secondary: string
+  order: number
+  priority: "primary" | "secondary"
+  presentation: "book" | "track" | "note" | "exploration" | "statement" | "route"
+  visual?: CurrentVisual
+  destination?: string
+  source?: string
+  updatedAt?: string
+  integration?: "music"
+}
+
+export const CURRENTS: CurrentSignal[] = [
+  {
+    id: "reading",
+    label: "READING",
+    primary: "Nexus",
+    secondary: "Yuval Noah Harari",
+    order: 1,
+    priority: "primary",
+    presentation: "book",
+  },
+  {
+    id: "attention",
+    label: "THINKING ABOUT",
+    primary: "Attention as Currency",
+    secondary:
+      "How attention is created, concentrated, and converted into cultural influence.",
+    order: 2,
+    priority: "primary",
+    presentation: "statement",
+  },
+  {
+    id: "media",
+    label: "EXPLORING",
+    primary: "AI × Media",
+    secondary:
+      "Exploring how AI could enable new forms of media production, distribution, and cultural influence.",
+    order: 3,
+    priority: "primary",
+    presentation: "exploration",
+  },
+  {
+    id: "listening",
+    label: "LISTENING",
+    primary: "Loser",
+    secondary: "Tame Impala",
+    order: 4,
+    priority: "secondary",
+    presentation: "track",
+    integration: "music",
+  },
+  {
+    id: "building",
+    label: "BUILDING",
+    primary: "Ustaad AI",
+    secondary: "Improving an AI-powered study product for exam preparation.",
+    order: 5,
+    priority: "secondary",
+    presentation: "note",
+  },
+  {
+    id: "between",
+    label: "BETWEEN",
+    primary: "Islamabad → Thar",
+    secondary: "Pakistan",
+    order: 6,
+    priority: "secondary",
+    presentation: "route",
+  },
 ]
 
 export const CONTACT_LINKS = [
