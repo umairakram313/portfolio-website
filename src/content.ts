@@ -144,24 +144,47 @@ export const THOUGHTS: Thought[] = [
   },
 ]
 
-export const EXPERIENCES = [
+export type Experience = {
+  role: string
+  organization: string
+  period: string
+  evidence: string
+  category: "ENGINEERING" | "QUANTITATIVE DEVELOPMENT" | "CROSS-FUNCTIONAL INTERNSHIP"
+  state: "incoming" | "current" | "past"
+  homepage?: { order: number }
+  destination?: string
+}
+
+export const EXPERIENCES: Experience[] = [
   {
-    role: "Robotics Research Assistant",
-    org: "NUST CEME Lab",
-    period: "Jan 2024 — May 2025",
-    note: "Contributed to autonomous ground vehicle research; focus on sensor fusion and localization in GPS-denied environments.",
+    role: "Graduate Trainee Engineer — Instrumentation & Control",
+    organization: "Engro Powergen Thar Limited (EPTL)",
+    period: "2026 — INCOMING",
+    evidence:
+      "Selected for Engro's graduate training program in Instrumentation & Control at EPTL, with onboarding underway.",
+    category: "ENGINEERING",
+    state: "incoming",
+    homepage: { order: 1 },
   },
   {
-    role: "Engineering Intern",
-    org: "Industrial Systems — [Company Placeholder]",
-    period: "Summer 2023",
-    note: "Supported predictive maintenance pipeline design and embedded sensor integration on shop-floor hardware.",
+    role: "Quantitative Developer",
+    organization: "Alpha Labs — Collaborative Project",
+    period: "AUG 2025 — MAY 2026",
+    evidence:
+      "Developed and evaluated rule-based trading models using Python, historical backtesting, forward-testing, and structured performance analysis.",
+    category: "QUANTITATIVE DEVELOPMENT",
+    state: "past",
+    homepage: { order: 2 },
   },
   {
-    role: "Lead — Robotics Society",
-    org: "NUST",
-    period: "2022 — 2024",
-    note: "Organized inter-university competitions, workshops, and built a community of 80+ members across engineering disciplines.",
+    role: "BSDSOQ Intern",
+    organization: "Cowlar Design Studio — Islamabad",
+    period: "AUG 2024 — SEP 2024",
+    evidence:
+      "Contributed to product testing and beta validation while supporting sales presentations, early-stage strategy, and cross-functional coordination.",
+    category: "CROSS-FUNCTIONAL INTERNSHIP",
+    state: "past",
+    homepage: { order: 3 },
   },
 ]
 
