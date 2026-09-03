@@ -13,6 +13,10 @@
 *.tif                filter=lfs diff=lfs merge=lfs -text
 *.ico                filter=lfs diff=lfs merge=lfs -text
 *.webp               filter=lfs diff=lfs merge=lfs -text
+
+# Homepage public assets must remain ordinary Git blobs so Vercel's build
+# receives deployable image bytes even when project-level LFS fetching is off.
+public/images/**      -filter -diff -merge -text
 *.psd                filter=lfs diff=lfs merge=lfs -text
 *.ai                 filter=lfs diff=lfs merge=lfs -text
 *.sketch             filter=lfs diff=lfs merge=lfs -text
