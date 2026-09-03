@@ -43,7 +43,7 @@ export default function SiteFooter() {
 
       <div className="contact-colophon">
         <span className="contact-archive-mark" aria-hidden="true">
-          <span className="contact-archive-registration" />
+          <span className="archive-registration-mark contact-archive-registration" />
           <span className="contact-archive-name">Umair Akram</span>
         </span>
 

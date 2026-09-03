@@ -377,20 +377,21 @@ header,
   color: var(--accent);
 }
 
-.site-mark-registration {
+.archive-registration-mark {
   position: relative;
   width: 1px;
   height: 0.85rem;
   background: var(--accent);
 }
 
-.site-mark-registration::after {
+.archive-registration-mark::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: -0.18rem;
-  width: 0.42rem;
-  height: 1px;
+  top: 0.12rem;
+  left: 0.18rem;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
   background: var(--accent);
 }
 
@@ -1425,9 +1426,7 @@ header,
 }
 
 .current-signal-note .current-signal-mark {
-  width: 0.55rem;
-  height: 0.55rem;
-  border: 1px solid var(--accent);
+  display: none;
 }
 
 .current-signal-route .current-signal-body h3 {
@@ -1864,29 +1863,9 @@ header,
 
 .contact-archive-registration {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
   left: 0;
-  width: 1px;
-  background: var(--accent);
-}
-
-.contact-archive-registration::before,
-.contact-archive-registration::after {
-  content: '';
-  position: absolute;
-  left: -0.16rem;
-  width: 0.36rem;
-  height: 1px;
-  background: var(--accent);
-}
-
-.contact-archive-registration::before {
-  top: 0;
-}
-
-.contact-archive-registration::after {
-  bottom: 0;
+  transform: translateY(-50%);
 }
 
 .contact-archive-name {

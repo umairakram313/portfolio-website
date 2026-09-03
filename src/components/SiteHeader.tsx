@@ -116,7 +116,10 @@ export default function SiteHeader() {
             className="site-mark"
             aria-label="Umair Akram — home"
           >
-            <span className="site-mark-registration" aria-hidden="true" />
+            <span
+              className="archive-registration-mark site-mark-registration"
+              aria-hidden="true"
+            />
             <span className="site-mark-name">Umair Akram</span>
           </a>
 
