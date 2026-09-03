@@ -2,6 +2,7 @@ import CurrentlySection from "./components/home/CurrentlySection"
 import ExperienceSection from "./components/home/ExperienceSection"
 import Hero from "./components/home/Hero"
 import ProjectsSection from "./components/home/ProjectsSection"
+import SignatureInterlude from "./components/home/SignatureInterlude"
 import ThoughtsSection from "./components/home/ThoughtsSection"
 import SiteFooter from "./components/SiteFooter"
 import SiteHeader from "./components/SiteHeader"
@@ -16,6 +17,7 @@ export default function App() {
         <ThoughtsSection />
         <ExperienceSection />
         <CurrentlySection />
+        <SignatureInterlude />
       </main>
       <SiteFooter />
     </div>

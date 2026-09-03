@@ -1299,6 +1299,202 @@ header,
   }
 }
 
+/* Signature interlude: independent trajectory against an ordered field */
+.signature-interlude {
+  overflow: clip;
+  padding-top: clamp(5rem, 10vw, 8rem);
+}
+
+.signature-interlude-inner {
+  position: relative;
+  width: 100%;
+  max-width: 82.5rem;
+  min-height: clamp(19rem, 29vw, 25rem);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.signature-rule {
+  position: absolute;
+  top: 5.4rem;
+  right: 1.5rem;
+  left: 1.5rem;
+  height: 1px;
+  background: var(--border);
+}
+
+.signature-statement {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-rows: auto auto;
+  align-items: end;
+  padding-top: 1.5rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+}
+
+.signature-bet {
+  position: relative;
+  z-index: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: var(--accent);
+  font-size: clamp(6rem, 24vw, 12rem);
+  font-style: italic;
+  transform: translateX(-0.12em) rotate(-2deg);
+  transform-origin: center;
+}
+
+.signature-connective {
+  align-self: end;
+  margin-left: 0.15em;
+  color: var(--muted-foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(0.65rem, 2.6vw, 0.9rem);
+  line-height: 1;
+  letter-spacing: 0.18em;
+}
+
+.signature-consensus {
+  min-width: 0;
+  margin-top: 0.18em;
+  font-size: clamp(3.25rem, 8.5vw, 7rem);
+  line-height: 0.85;
+  white-space: nowrap;
+}
+
+.signature-supporting {
+  position: relative;
+  z-index: 2;
+  max-width: 31rem;
+  margin-top: 2.25rem;
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.signature-trajectory {
+  position: absolute;
+  z-index: 0;
+  right: 1.5rem;
+  bottom: 2.75rem;
+  width: min(55%, 45rem);
+  height: 8.5rem;
+  overflow: visible;
+}
+
+.signature-trajectory path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.signature-trajectory-order path {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.signature-trajectory-bet {
+  stroke: var(--accent);
+  stroke-width: 1.25;
+}
+
+.signature-divider {
+  max-width: 82.5rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .signature-interlude-inner,
+  .signature-divider {
+    padding-inline: 2.5rem;
+  }
+
+  .signature-rule {
+    right: 2.5rem;
+    left: 2.5rem;
+  }
+
+  .signature-statement {
+    grid-template-columns: minmax(15rem, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .signature-bet {
+    transform: translateX(-0.18em) rotate(-2deg);
+  }
+
+  .signature-trajectory {
+    right: 2.5rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .signature-interlude {
+    padding-top: 5.5rem;
+  }
+
+  .signature-interlude-inner {
+    min-height: 21rem;
+  }
+
+  .signature-rule {
+    top: 4.9rem;
+  }
+
+  .signature-statement {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .signature-bet {
+    grid-row: auto;
+    justify-self: start;
+  }
+
+  .signature-connective {
+    margin-top: -0.35rem;
+    margin-left: 34%;
+  }
+
+  .signature-consensus {
+    width: 100%;
+    margin-top: 0.35em;
+    font-size: clamp(2.35rem, 12vw, 4rem);
+  }
+
+  .signature-supporting {
+    max-width: 19rem;
+    margin-top: 2rem;
+  }
+
+  .signature-trajectory {
+    right: 1.5rem;
+    bottom: 2.25rem;
+    width: 64%;
+    height: 6.5rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .signature-bet,
+  .signature-trajectory-bet {
+    transition: transform 0.35s ease;
+  }
+
+  .signature-interlude-inner:hover .signature-bet {
+    transform: translateX(-0.14em) rotate(-1deg);
+  }
+
+  .signature-interlude-inner:hover .signature-trajectory-bet {
+    transform: translateY(-3px);
+  }
+}
+
 /* Crosshair annotation */
 .crosshair {
   position: relative;

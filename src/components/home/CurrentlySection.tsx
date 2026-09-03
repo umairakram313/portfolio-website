@@ -1,5 +1,4 @@
 import { CURRENTS } from "../../content"
-import SectionDivider from "../SectionDivider"
 
 export default function CurrentlySection() {
   const currentSignals = [...CURRENTS].sort((a, b) => a.order - b.order)
@@ -42,8 +41,6 @@ export default function CurrentlySection() {
           </article>
         ))}
       </div>
-
-      <SectionDivider index="005" label="Contact" />
     </section>
   )
 }

@@ -268,6 +268,20 @@ export const CURRENTS: CurrentSignal[] = [
   },
 ]
 
+export type SignatureStatement = {
+  lead: string
+  connective: string
+  anchor: string
+  supporting: string
+}
+
+export const SIGNATURE_STATEMENT: SignatureStatement = {
+  lead: "BET",
+  connective: "BEFORE",
+  anchor: "CONSENSUS.",
+  supporting: "Make your own bets. Build what survives them.",
+}
+
 export const CONTACT_LINKS = [
   {
     label: "Email",
