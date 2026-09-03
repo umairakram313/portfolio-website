@@ -38,6 +38,11 @@
   --muted-foreground: #7a7168;
   --subtle: #3a3632;
   --accent: #c8402a;
+  --content-muted: #9a9086;
+  --metadata-foreground: #968c82;
+  --accent-readable: #e16b54;
+  --text-body-small: 0.875rem;
+  --text-metadata: 0.625rem;
   --accent-foreground: #ede8e0;
   --border: #2a2723;
   --ring: #c8402a;
@@ -63,6 +68,9 @@
   --muted-foreground: #625a52;
   --subtle: #756b61;
   --accent: #b63b27;
+  --content-muted: #625a52;
+  --metadata-foreground: #625a52;
+  --accent-readable: #a93424;
   --accent-foreground: #fffaf2;
   --border: #c9beae;
   --ring: #b63b27;
@@ -103,6 +111,35 @@ header,
 :focus-visible {
   outline: 1px solid var(--ring);
   outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--background);
+  border: 1px solid var(--accent);
+  color: var(--foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-metadata);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: translateY(calc(-100% - 1rem));
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+#about,
+#projects,
+#thoughts,
+#experience,
+#contact {
+  scroll-margin-top: 5rem;
 }
 
 ::selection {
@@ -203,7 +240,7 @@ header,
 .site-header-theme,
 .nav-link,
 .site-mobile-link {
-  color: var(--muted-foreground);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
   font-size: 0.62rem;
   line-height: 1;
@@ -273,7 +310,7 @@ header,
 }
 
 .site-mobile-link.is-active {
-  color: var(--accent);
+  color: var(--accent-readable);
 }
 
 .site-header.is-scrolled.menu-open .site-header-shell {
@@ -314,7 +351,7 @@ header,
   }
 
   .site-header.is-scrolled .nav-link.is-active {
-    color: var(--accent);
+    color: var(--accent-readable);
   }
 
   .site-header.is-scrolled .theme-toggle-mark {
@@ -661,11 +698,20 @@ header,
 }
 
 .nav-link.is-active {
-  color: var(--accent);
+  color: var(--accent-readable);
 }
 
 .nav-link.is-active::after {
-  background: var(--accent);
+  background: var(--accent-readable);
+}
+
+.hero-factual-meta,
+.hero-secondary-action {
+  color: var(--metadata-foreground);
+}
+
+.hero-supporting-copy {
+  color: var(--content-muted);
 }
 
 /* Selected projects: editorial index and evidence stage */
@@ -709,7 +755,7 @@ header,
 .project-index-number {
   grid-area: number;
   padding-top: 0.35rem;
-  color: var(--subtle);
+  color: var(--metadata-foreground);
   font-size: 0.625rem;
   letter-spacing: 0.14em;
   transition: color 0.2s ease;
@@ -726,17 +772,17 @@ header,
   transition: color 0.2s ease;
 }
 
-.project-index-period { grid-area: period; color: var(--subtle); font-size: 0.625rem; line-height: 1.5; letter-spacing: 0.08em; white-space: nowrap; }
-.project-index-type { grid-area: type; margin-top: 0.4rem; color: var(--muted-foreground); font-size: 0.57rem; line-height: 1.4; letter-spacing: 0.11em; }
-.project-index-description { grid-area: description; margin-top: 0.85rem; color: var(--muted-foreground); font-size: 0.79rem; font-weight: 300; line-height: 1.6; }
-.project-index-technologies { grid-area: technologies; margin-top: 0.7rem; color: var(--subtle); font-size: 0.54rem; line-height: 1.55; letter-spacing: 0.08em; }
-.project-index-entry.is-active .project-index-number,
+.project-index-period { grid-area: period; color: var(--metadata-foreground); font-size: var(--text-metadata); line-height: 1.5; letter-spacing: 0.08em; white-space: nowrap; }
+.project-index-type { grid-area: type; margin-top: 0.4rem; color: var(--metadata-foreground); font-size: var(--text-metadata); line-height: 1.4; letter-spacing: 0.11em; }
+.project-index-description { grid-area: description; margin-top: 0.85rem; color: var(--content-muted); font-size: var(--text-body-small); font-weight: 300; line-height: 1.65; }
+.project-index-technologies { grid-area: technologies; margin-top: 0.7rem; color: var(--metadata-foreground); font-size: var(--text-metadata); line-height: 1.55; letter-spacing: 0.08em; }
+.project-index-entry.is-active .project-index-number { color: var(--accent-readable); }
 .project-index-entry.is-active .project-index-title { color: var(--accent); }
-.project-index-entry.is-active .project-index-technologies { color: var(--muted-foreground); }
+.project-index-entry.is-active .project-index-technologies { color: var(--metadata-foreground); }
 
 .project-repository-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; padding: 0 0 1.25rem 2.25rem; }
-.project-repository-link { color: var(--muted-foreground); font-size: 0.55rem; letter-spacing: 0.12em; transition: color 0.2s ease; }
-.project-repository-link:hover { color: var(--accent); }
+.project-repository-link { color: var(--metadata-foreground); font-size: var(--text-metadata); letter-spacing: 0.12em; transition: color 0.2s ease; }
+.project-repository-link:hover { color: var(--accent-readable); }
 .project-artifact { margin: 0; }
 
 .project-artifact-field {
@@ -791,8 +837,8 @@ header,
   justify-content: space-between;
   gap: 1rem;
   padding: 0.85rem 1.4rem 0;
-  color: var(--muted-foreground);
-  font-size: 0.57rem;
+  color: var(--metadata-foreground);
+  font-size: var(--text-metadata);
   line-height: 1.5;
   letter-spacing: 0.12em;
 }
@@ -902,9 +948,9 @@ header,
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem 1rem;
-  color: var(--muted-foreground);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
+  font-size: var(--text-metadata);
   line-height: 1.5;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -951,7 +997,7 @@ header,
 .thought-featured-body > p {
   max-width: 39rem;
   margin-top: 1.5rem;
-  color: var(--muted-foreground);
+  color: var(--content-muted);
   font-family: 'Fraunces', serif;
   font-size: clamp(1rem, 3.7vw, 1.25rem);
   font-style: italic;
@@ -994,8 +1040,8 @@ header,
 .thought-secondary > p {
   max-width: 31rem;
   margin-top: 1rem;
-  color: var(--muted-foreground);
-  font-size: 0.87rem;
+  color: var(--content-muted);
+  font-size: var(--text-body-small);
   font-weight: 300;
   line-height: 1.75;
 }
@@ -1069,22 +1115,6 @@ header,
   letter-spacing: -0.01em;
 }
 
-.experience-resume-link {
-  grid-column: 2;
-  width: fit-content;
-  margin-top: 0.75rem;
-  color: var(--muted-foreground);
-  font-family: 'DM Mono', monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 0.2s ease;
-}
-
-.experience-resume-link:hover {
-  color: var(--foreground);
-}
-
 .experience-chronology {
   margin: 0;
   padding: 0;
@@ -1103,9 +1133,9 @@ header,
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--subtle);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: var(--text-metadata);
   line-height: 1.5;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1128,9 +1158,9 @@ header,
 
 .experience-category {
   margin-bottom: 0.4rem;
-  color: var(--subtle);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
-  font-size: 0.55rem;
+  font-size: var(--text-metadata);
   line-height: 1.5;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1147,7 +1177,7 @@ header,
 
 .experience-organization {
   margin-top: 0.45rem;
-  color: var(--accent);
+  color: var(--accent-readable);
   font-family: 'DM Mono', monospace;
   font-size: 0.62rem;
   line-height: 1.55;
@@ -1158,8 +1188,8 @@ header,
 .experience-evidence {
   max-width: 38rem;
   margin-top: 0.8rem;
-  color: var(--muted-foreground);
-  font-size: 0.82rem;
+  color: var(--content-muted);
+  font-size: var(--text-body-small);
   font-weight: 300;
   line-height: 1.7;
 }
@@ -1245,7 +1275,7 @@ header,
 
 .currently-heading > p {
   display: none;
-  color: var(--muted-foreground);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
   font-size: 0.58rem;
   letter-spacing: 0.13em;
@@ -1265,9 +1295,9 @@ header,
 }
 
 .current-signal-label {
-  color: var(--accent);
+  color: var(--accent-readable);
   font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
+  font-size: var(--text-metadata);
   line-height: 1.5;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1291,8 +1321,8 @@ header,
 .current-signal-body > p {
   max-width: 31rem;
   margin-top: 0.75rem;
-  color: var(--muted-foreground);
-  font-size: 0.8rem;
+  color: var(--content-muted);
+  font-size: var(--text-body-small);
   font-weight: 300;
   line-height: 1.7;
 }
@@ -1353,8 +1383,9 @@ header,
 }
 
 .current-signal-book .current-signal-body > p {
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: var(--text-metadata);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1405,8 +1436,9 @@ header,
 }
 
 .current-signal-route .current-signal-body > p {
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: var(--text-metadata);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -1567,7 +1599,7 @@ header,
 .signature-connective {
   align-self: end;
   margin-left: 0.15em;
-  color: var(--muted-foreground);
+  color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
   font-size: clamp(0.65rem, 2.6vw, 0.9rem);
   line-height: 1;
@@ -1588,8 +1620,8 @@ header,
   max-width: 31rem;
   margin-top: 2.25rem;
   margin-left: auto;
-  color: var(--muted-foreground);
-  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+  color: var(--content-muted);
+  font-size: clamp(0.875rem, 1.3vw, 0.95rem);
   font-weight: 300;
   line-height: 1.65;
 }
@@ -1741,8 +1773,8 @@ header,
 .contact-intro {
   max-width: 28rem;
   margin-top: 2rem;
-  color: var(--muted-foreground);
-  font-size: 0.82rem;
+  color: var(--content-muted);
+  font-size: var(--text-body-small);
   font-weight: 300;
   line-height: 1.7;
 }
@@ -1775,16 +1807,15 @@ header,
 }
 
 .contact-destination-label,
-.contact-colophon,
-.contact-archive-index {
+.contact-colophon {
   font-family: 'DM Mono', monospace;
-  font-size: 0.56rem;
+  font-size: var(--text-metadata);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .contact-destination-label {
-  color: var(--muted-foreground);
+  color: var(--metadata-foreground);
 }
 
 .contact-destination-value {
@@ -1815,7 +1846,7 @@ header,
   margin-top: clamp(4.5rem, 8vw, 7rem);
   padding-top: 1.25rem;
   border-top: 1px solid var(--border);
-  color: var(--subtle);
+  color: var(--metadata-foreground);
   line-height: 1.6;
 }
 
@@ -1863,15 +1894,6 @@ header,
   font-family: 'Fraunces', serif;
   font-size: 1rem;
   line-height: 1;
-}
-
-.contact-archive-index {
-  margin-left: 0.55rem;
-  padding-left: 0.55rem;
-  border-left: 1px solid var(--border);
-  color: var(--subtle);
-  font-size: 0.42rem;
-  line-height: 1.15;
 }
 
 @media (min-width: 640px) {

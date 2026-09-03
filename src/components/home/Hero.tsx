@@ -3,19 +3,16 @@ import HeroPortrait from "./HeroPortrait"
 
 export default function Hero() {
   return (
-    <section className="pt-[120px] pb-0 max-w-[1320px] mx-auto px-6 md:px-10 overflow-x-clip">
+    <section
+      id="about"
+      className="pt-[120px] pb-0 max-w-[1320px] mx-auto px-6 md:px-10 overflow-x-clip"
+    >
       <div className="anim-fade-in flex items-center justify-between mb-12 md:mb-14">
-        <div className="flex items-center gap-4">
-          <span className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-            Est. 2001
-          </span>
-          <span className="w-12 h-px bg-border inline-block" />
-          <span className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-            Rawalpindi, PK
-          </span>
-        </div>
-        <span className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-          v1.0 — 2026
+        <span className="hero-factual-meta font-mono-label text-[10px] tracking-[0.15em] uppercase">
+          Islamabad, PK
+        </span>
+        <span className="hero-factual-meta font-mono-label text-[10px] tracking-[0.15em] uppercase">
+          2026
         </span>
       </div>
 
@@ -35,15 +32,15 @@ export default function Hero() {
         <div className="hero-copy">
           <div className="anim-fade-up delay-300 max-w-[520px]">
             <p className="font-display font-light italic text-[19px] md:text-[22px] leading-[1.4] text-secondary-foreground">
-              Mechatronics engineer. Systems thinker. Maker of things that move,
-              sense, and decide.
+              Mechatronics engineer. Systems builder. Curious across technology,
+              ideas, and what they can become.
             </p>
           </div>
           <div className="anim-fade-up delay-400 mt-5 max-w-[460px]">
-            <p className="text-[15px] leading-[1.7] text-muted-foreground font-light">
-              Graduate of NUST, Islamabad — where I spent four years at the
-              intersection of mechanical design, embedded systems, and machine
-              intelligence. Now looking for problems that matter.
+            <p className="hero-supporting-copy text-[15px] leading-[1.7] font-light">
+              Graduate of NUST&apos;s College of E&amp;ME, working across
+              engineering, software and AI while exploring systems, culture, and
+              the ideas that connect them.
             </p>
           </div>
           <div className="anim-fade-up delay-500 mt-8 flex items-center gap-6">
@@ -54,8 +51,8 @@ export default function Hero() {
               Selected Work ↓
             </a>
             <a
-              href="mailto:umair@example.com"
-              className="font-mono-label text-[11px] tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-200"
+              href="#contact"
+              className="hero-secondary-action font-mono-label text-[11px] tracking-[0.12em] uppercase hover:text-foreground transition-colors duration-200"
             >
               Get in Touch →
             </a>
@@ -64,20 +61,20 @@ export default function Hero() {
 
         <div className="hero-credentials anim-fade-in delay-600">
           <div className="rule-accent w-8 ml-auto hidden md:block mb-4" />
-          <p className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-            Degree
+          <p className="hero-factual-meta font-mono-label text-[10px] tracking-[0.15em] uppercase">
+            Discipline
           </p>
           <p className="font-display text-[13px] font-light text-secondary-foreground">
-            BE Mechatronics
+            BE MECHATRONICS
           </p>
-          <p className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground pt-2">
-            Institution
+          <p className="hero-factual-meta font-mono-label text-[10px] tracking-[0.15em] uppercase pt-2">
+            Education
           </p>
           <p className="font-display text-[13px] font-light text-secondary-foreground">
-            NUST, Islamabad
+            NUST / COLLEGE OF E&amp;ME
           </p>
-          <p className="font-mono-label text-[10px] tracking-[0.15em] uppercase text-muted-foreground pt-2">
-            Class of
+          <p className="hero-factual-meta font-mono-label text-[10px] tracking-[0.15em] uppercase pt-2">
+            Graduated
           </p>
           <p className="font-display text-[13px] font-light text-secondary-foreground">
             2025
@@ -87,7 +84,7 @@ export default function Hero() {
 
       <SectionDivider
         index="001"
-        label="Work"
+        label="PROJECTS"
         className="anim-fade-in delay-700 mt-16 md:mt-20"
       />
     </section>

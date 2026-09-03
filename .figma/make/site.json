@@ -1,7 +1,9 @@
 {
-  "description": "Showcases a multidimensional personal homepage blending engineering, projects, and creative insights to reflect intelligence and individuality for professionals.",
+  "title": "Umair Akram — Engineer, Builder & Thinker",
+  "description": "Personal website of Umair Akram — a mechatronics engineer building across engineering, software and AI, with projects, writing and current explorations.",
+  "language": "en",
   "robots": {
-    "index": false
+    "index": true
   },
   "accessibility": {
     "addBypassLinks": false,

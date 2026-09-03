@@ -18,9 +18,6 @@ export default function ExperienceSection() {
             §003
           </span>
           <h2 id="experience-heading">Experience</h2>
-          <a href="#" className="experience-resume-link">
-            Full Résumé <span aria-hidden="true">↗</span>
-          </a>
         </header>
 
         <ol className="experience-chronology">

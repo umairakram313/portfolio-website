@@ -10,8 +10,11 @@ import SiteHeader from "./components/SiteHeader"
 export default function App() {
   return (
     <div className="min-h-full bg-background text-foreground">
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <Hero />
         <ProjectsSection />
         <ThoughtsSection />

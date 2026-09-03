@@ -139,7 +139,7 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      <SectionDivider index="002" label="Thought" className="mt-12 md:mt-16" />
+      <SectionDivider index="002" label="THOUGHTS" className="mt-12 md:mt-16" />
     </section>
   )
 }

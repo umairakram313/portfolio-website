@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { NAV_LINKS } from "../content"
 
 type Theme = "light" | "dark"
 
-const HEADER_LINKS = [
-  ...NAV_LINKS.map((link) =>
-    link.label === "About" ? { ...link, href: "#" } : link,
-  ),
-  { label: "Contact", href: "#contact" },
-]
+const HEADER_LINKS = [...NAV_LINKS, { label: "Contact", href: "#contact" }]
 
-const SECTION_IDS = ["projects", "thoughts", "experience", "contact"] as const
+const SECTION_TARGETS = [
+  { id: "about", href: "#about" },
+  { id: "projects", href: "#projects" },
+  { id: "thoughts", href: "#thoughts" },
+  { id: "experience", href: "#experience" },
+  { id: "currently", href: null },
+  { id: "contact", href: "#contact" },
+] as const
 
 function getCurrentTheme(): Theme {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark"
@@ -20,7 +22,8 @@ export default function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [theme, setTheme] = useState<Theme>(getCurrentTheme)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [activeHref, setActiveHref] = useState("#")
+  const [activeHref, setActiveHref] = useState<string | null>("#about")
+  const menuTriggerRef = useRef<HTMLButtonElement>(null)
   const nextTheme = theme === "dark" ? "light" : "dark"
 
   useEffect(() => {
@@ -31,12 +34,12 @@ export default function SiteHeader() {
       setIsScrolled(window.scrollY > 32)
 
       const readingLine = window.scrollY + window.innerHeight * 0.3
-      let currentHref = "#"
+      let currentHref: string | null = null
 
-      for (const id of SECTION_IDS) {
-        const section = document.getElementById(id)
+      for (const target of SECTION_TARGETS) {
+        const section = document.getElementById(target.id)
         if (section && section.offsetTop <= readingLine) {
-          currentHref = `#${id}`
+          currentHref = target.href
         }
       }
 
@@ -57,6 +60,20 @@ export default function SiteHeader() {
       if (frame) window.cancelAnimationFrame(frame)
     }
   }, [])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false)
+        menuTriggerRef.current?.focus()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [mobileMenuOpen])
 
   function toggleTheme() {
     document.documentElement.dataset.theme = nextTheme
@@ -94,7 +111,11 @@ export default function SiteHeader() {
     >
       <div className="site-header-shell">
         <nav className="site-header-nav" aria-label="Primary navigation">
-          <a href="#" className="site-mark" aria-label="Umair Akram — home">
+          <a
+            href="#about"
+            className="site-mark"
+            aria-label="Umair Akram — home"
+          >
             <span className="site-mark-registration" aria-hidden="true" />
             <span className="site-mark-name">Umair Akram</span>
           </a>
@@ -120,6 +141,7 @@ export default function SiteHeader() {
           <div className="site-header-mobile-actions">
             {themeToggle}
             <button
+              ref={menuTriggerRef}
               type="button"
               className="site-menu-trigger"
               onClick={() => setMobileMenuOpen((open) => !open)}

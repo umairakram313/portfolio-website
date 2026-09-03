@@ -45,11 +45,6 @@ export default function SiteFooter() {
         <span className="contact-archive-mark" aria-hidden="true">
           <span className="contact-archive-registration" />
           <span className="contact-archive-name">Umair Akram</span>
-          <span className="contact-archive-index">
-            UA
-            <br />
-            01
-          </span>
         </span>
 
         <p>
@@ -57,8 +52,8 @@ export default function SiteFooter() {
           Pakistan
         </p>
         <span>
-          Mechatronics <span aria-hidden="true">×</span> Systems{" "}
-          <span aria-hidden="true">×</span> Engineering
+          Engineering <span aria-hidden="true">×</span> Systems{" "}
+          <span aria-hidden="true">×</span> Ideas
         </span>
       </div>
     </footer>
