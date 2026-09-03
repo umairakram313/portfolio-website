@@ -282,13 +282,29 @@ export const SIGNATURE_STATEMENT: SignatureStatement = {
   supporting: "Make your own bets. Build what survives them.",
 }
 
-export const CONTACT_LINKS = [
+export type ContactLink = {
+  label: string
+  value: string
+  href: string
+  external?: boolean
+}
+
+export const CONTACT_LINKS: ContactLink[] = [
   {
     label: "Email",
-    value: "umair@example.com",
-    href: "mailto:umair@example.com",
+    value: "umairakram2003@outlook.com",
+    href: "mailto:umairakram2003@outlook.com",
   },
-  { label: "LinkedIn", value: "/in/umairakram", href: "#" },
-  { label: "GitHub", value: "github.com/umairakram", href: "#" },
-  { label: "Résumé", value: "Download PDF", href: "#" },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/umair-akram-3ba7091b3",
+    href: "https://linkedin.com/in/umair-akram-3ba7091b3",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/umairakram313",
+    href: "https://github.com/umairakram313",
+    external: true,
+  },
 ]

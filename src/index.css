@@ -1495,6 +1495,201 @@ header,
   }
 }
 
+/* Contact: closing invitation and archival colophon */
+.contact-closing {
+  width: 100%;
+  max-width: 82.5rem;
+  margin-inline: auto;
+  padding: clamp(4.5rem, 8vw, 7rem) 1.5rem 3rem;
+}
+
+.contact-closing-main {
+  display: grid;
+  gap: 4rem;
+}
+
+.contact-statement {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.75rem, 11vw, 5.5rem);
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.contact-statement em {
+  color: var(--accent);
+  font-weight: inherit;
+}
+
+.contact-intro {
+  max-width: 28rem;
+  margin-top: 2rem;
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.contact-destinations {
+  align-self: end;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-destination {
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--border);
+  color: var(--secondary-foreground);
+  text-decoration: none;
+}
+
+.contact-destination::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.contact-destination-label,
+.contact-colophon,
+.contact-archive-index {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contact-destination-label {
+  color: var(--muted-foreground);
+}
+
+.contact-destination-value {
+  min-width: 0;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.contact-destination:hover::after,
+.contact-destination:focus-visible::after {
+  width: min(8rem, 35%);
+}
+
+.contact-destination:hover .contact-destination-value,
+.contact-destination:focus-visible .contact-destination-value {
+  color: var(--accent);
+  transform: translateX(0.25rem);
+}
+
+.contact-colophon {
+  display: grid;
+  gap: 1rem;
+  align-items: end;
+  margin-top: clamp(4.5rem, 8vw, 7rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  color: var(--subtle);
+  line-height: 1.6;
+}
+
+.contact-archive-mark {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-self: start;
+  align-items: center;
+  width: fit-content;
+  padding-left: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.contact-archive-registration {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--accent);
+}
+
+.contact-archive-registration::before,
+.contact-archive-registration::after {
+  content: '';
+  position: absolute;
+  left: -0.16rem;
+  width: 0.36rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.contact-archive-registration::before {
+  top: 0;
+}
+
+.contact-archive-registration::after {
+  bottom: 0;
+}
+
+.contact-archive-name {
+  grid-row: 1 / span 2;
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.contact-archive-index {
+  margin-left: 0.55rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--border);
+  color: var(--subtle);
+  font-size: 0.42rem;
+  line-height: 1.15;
+}
+
+@media (min-width: 640px) {
+  .contact-closing {
+    padding-inline: 2.5rem;
+  }
+
+  .contact-destination {
+    grid-template-columns: minmax(5rem, 0.28fr) minmax(0, 0.72fr);
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .contact-colophon {
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+  }
+
+  .contact-colophon p {
+    justify-self: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .contact-closing-main {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(4rem, 8vw, 8rem);
+  }
+
+  .contact-statement {
+    font-size: clamp(3.5rem, 5.4vw, 5.5rem);
+  }
+}
+
 /* Crosshair annotation */
 .crosshair {
   position: relative;
