@@ -1,6 +1,16 @@
 import { CURRENTS } from "../../content"
 
-export default function CurrentlySection() {
+type CurrentlySectionProps = {
+  activeListeningUrl: string | null
+  listeningTrackPlaying: boolean
+  onToggleListeningTrack: (url: string) => void
+}
+
+export default function CurrentlySection({
+  activeListeningUrl,
+  listeningTrackPlaying,
+  onToggleListeningTrack,
+}: CurrentlySectionProps) {
   const currentSignals = [...CURRENTS].sort((a, b) => a.order - b.order)
 
   return (
@@ -37,14 +47,22 @@ export default function CurrentlySection() {
               </h3>
               <p>{signal.secondary}</p>
               {signal.listenUrl && (
-                <a
+                <button
+                  type="button"
                   className="current-signal-listen-link"
-                  href={signal.listenUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  onClick={() => onToggleListeningTrack(signal.listenUrl!)}
+                  aria-pressed={
+                    listeningTrackPlaying &&
+                    activeListeningUrl === signal.listenUrl
+                  }
+                  data-audio-control
                 >
-                  Play <span aria-hidden="true">↗</span>
-                </a>
+                  {listeningTrackPlaying &&
+                  activeListeningUrl === signal.listenUrl
+                    ? "Stop"
+                    : "Play"}{" "}
+                  <span aria-hidden="true">↗</span>
+                </button>
               )}
             </div>
             <span className="current-signal-mark" aria-hidden="true" />

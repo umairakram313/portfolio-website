@@ -123,6 +123,7 @@ export default function SiteHeader({
       }
       aria-pressed={soundEnabled}
       title={soundEnabled ? "Mute background music" : "Play background music"}
+      data-audio-control
     >
       <span className="sound-toggle-mark" aria-hidden="true">
         <i />

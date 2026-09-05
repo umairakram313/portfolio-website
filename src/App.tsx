@@ -9,7 +9,13 @@ import SiteHeader from "./components/SiteHeader"
 import useBackgroundAudio from "./hooks/useBackgroundAudio"
 
 export default function App() {
-  const { soundEnabled, toggleSound } = useBackgroundAudio()
+  const {
+    soundEnabled,
+    toggleSound,
+    activeListeningUrl,
+    listeningTrackPlaying,
+    toggleListeningTrack,
+  } = useBackgroundAudio()
 
   return (
     <div className="min-h-full bg-background text-foreground">
@@ -22,7 +28,11 @@ export default function App() {
         <ProjectsSection />
         <ThoughtsSection />
         <ExperienceSection />
-        <CurrentlySection />
+        <CurrentlySection
+          activeListeningUrl={activeListeningUrl}
+          listeningTrackPlaying={listeningTrackPlaying}
+          onToggleListeningTrack={toggleListeningTrack}
+        />
         <SignatureInterlude />
       </main>
       <SiteFooter />

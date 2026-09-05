@@ -248,6 +248,7 @@ export const CURRENTS: CurrentSignal[] = [
     priority: "secondary",
     presentation: "track",
     integration: "music",
+    listenUrl: `${import.meta.env.BASE_URL}audio/loser.mp3`,
   },
   {
     id: "building",

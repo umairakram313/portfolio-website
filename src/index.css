@@ -1384,6 +1384,7 @@ header,
 .current-signal-listen-link {
   display: inline-block;
   margin-top: 0.9rem;
+  cursor: pointer;
   color: var(--metadata-foreground);
   font-family: 'DM Mono', monospace;
   font-size: var(--text-metadata);
