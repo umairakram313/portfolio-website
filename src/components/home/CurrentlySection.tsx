@@ -36,6 +36,16 @@ export default function CurrentlySection() {
                 )}
               </h3>
               <p>{signal.secondary}</p>
+              {signal.listenUrl && (
+                <a
+                  className="current-signal-listen-link"
+                  href={signal.listenUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Play <span aria-hidden="true">↗</span>
+                </a>
+              )}
             </div>
             <span className="current-signal-mark" aria-hidden="true" />
           </article>

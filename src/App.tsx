@@ -6,14 +6,17 @@ import SignatureInterlude from "./components/home/SignatureInterlude"
 import ThoughtsSection from "./components/home/ThoughtsSection"
 import SiteFooter from "./components/SiteFooter"
 import SiteHeader from "./components/SiteHeader"
+import useBackgroundAudio from "./hooks/useBackgroundAudio"
 
 export default function App() {
+  const { soundEnabled, toggleSound } = useBackgroundAudio()
+
   return (
     <div className="min-h-full bg-background text-foreground">
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
-      <SiteHeader />
+      <SiteHeader soundEnabled={soundEnabled} onToggleSound={toggleSound} />
       <main id="main-content">
         <Hero />
         <ProjectsSection />

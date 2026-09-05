@@ -234,10 +234,11 @@ header,
 .site-header-mobile-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.9rem;
 }
 
 .site-header-theme,
+.site-header-sound,
 .nav-link,
 .site-mobile-link {
   color: var(--metadata-foreground);
@@ -253,8 +254,68 @@ header,
 }
 
 .site-header-theme:hover,
-.site-header-theme:focus-visible {
+.site-header-theme:focus-visible,
+.site-header-sound:hover,
+.site-header-sound:focus-visible {
   color: var(--foreground);
+}
+
+.site-header-utilities,
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-header-utilities {
+  gap: 0.9rem;
+}
+
+.sound-toggle {
+  gap: 0.45rem;
+  transition: color 0.2s ease;
+}
+
+.sound-toggle-mark {
+  display: inline-flex;
+  width: 0.72rem;
+  height: 0.62rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sound-toggle-mark i {
+  display: block;
+  width: 1px;
+  background: currentColor;
+  transition: height 0.2s ease, opacity 0.2s ease;
+}
+
+.sound-toggle-mark i:first-child {
+  height: 35%;
+}
+
+.sound-toggle-mark i:nth-child(2) {
+  height: 100%;
+}
+
+.sound-toggle-mark i:last-child {
+  height: 65%;
+}
+
+.sound-toggle.is-muted .sound-toggle-mark i {
+  height: 1px;
+  opacity: 0.65;
+}
+
+@media (max-width: 767px) {
+  .sound-toggle-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 .site-menu-trigger {
@@ -345,7 +406,8 @@ header,
   }
 
   .site-header.is-scrolled .nav-link,
-  .site-header.is-scrolled .site-header-theme {
+  .site-header.is-scrolled .site-header-theme,
+  .site-header.is-scrolled .site-header-sound {
     color: color-mix(in srgb, var(--muted-foreground) 72%, var(--foreground));
     font-size: 0.67rem;
   }
@@ -1317,6 +1379,22 @@ header,
 .current-signal-body h3 a {
   color: inherit;
   text-decoration: none;
+}
+
+.current-signal-listen-link {
+  display: inline-block;
+  margin-top: 0.9rem;
+  color: var(--metadata-foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-metadata);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.current-signal-listen-link:hover,
+.current-signal-listen-link:focus-visible {
+  color: var(--accent-readable);
 }
 
 .current-signal-body > p {

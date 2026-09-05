@@ -206,6 +206,7 @@ export type CurrentSignal = {
   source?: string
   updatedAt?: string
   integration?: "music"
+  listenUrl?: string
 }
 
 export const CURRENTS: CurrentSignal[] = [

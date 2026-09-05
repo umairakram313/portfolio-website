@@ -3,6 +3,11 @@ import { NAV_LINKS } from "../content"
 
 type Theme = "light" | "dark"
 
+type SiteHeaderProps = {
+  soundEnabled: boolean
+  onToggleSound: () => void
+}
+
 const HEADER_LINKS = [...NAV_LINKS, { label: "Contact", href: "#contact" }]
 
 const SECTION_TARGETS = [
@@ -18,7 +23,10 @@ function getCurrentTheme(): Theme {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark"
 }
 
-export default function SiteHeader() {
+export default function SiteHeader({
+  soundEnabled,
+  onToggleSound,
+}: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [theme, setTheme] = useState<Theme>(getCurrentTheme)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -103,6 +111,28 @@ export default function SiteHeader() {
     </button>
   )
 
+  const soundToggle = (
+    <button
+      type="button"
+      className={`sound-toggle site-header-sound${
+        soundEnabled ? " is-on" : " is-muted"
+      }`}
+      onClick={onToggleSound}
+      aria-label={
+        soundEnabled ? "Mute background music" : "Play background music"
+      }
+      aria-pressed={soundEnabled}
+      title={soundEnabled ? "Mute background music" : "Play background music"}
+    >
+      <span className="sound-toggle-mark" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className="sound-toggle-label">Sound</span>
+    </button>
+  )
+
   return (
     <header
       className={`site-header${isScrolled ? " is-scrolled" : ""}${
@@ -138,10 +168,14 @@ export default function SiteHeader() {
                 </a>
               )
             })}
-            {themeToggle}
+            <div className="site-header-utilities">
+              {soundToggle}
+              {themeToggle}
+            </div>
           </div>
 
           <div className="site-header-mobile-actions">
+            {soundToggle}
             {themeToggle}
             <button
               ref={menuTriggerRef}
