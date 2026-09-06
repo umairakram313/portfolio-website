@@ -63,7 +63,8 @@ export default function useBackgroundAudio({
     backgroundAudio.loop = true
     backgroundAudio.preload = "auto"
     backgroundAudio.volume = 0
-    backgroundAudio.muted = true
+    backgroundAudio.defaultMuted = false
+    backgroundAudio.muted = false
     backgroundAudio.load()
 
     function cancelBackgroundFade() {
@@ -137,7 +138,7 @@ export default function useBackgroundAudio({
       listeningForUnlock = true
     }
 
-    async function attemptBackgroundPlayback(audible = true) {
+    async function attemptBackgroundPlayback() {
       if (
         disposed ||
         !soundEnabledRef.current ||
@@ -151,7 +152,8 @@ export default function useBackgroundAudio({
       backgroundPlayInFlight = true
       cancelBackgroundFade()
       backgroundAudio.volume = 0
-      backgroundAudio.muted = !audible
+      backgroundAudio.defaultMuted = false
+      backgroundAudio.muted = false
 
       try {
         await backgroundAudio.play()
@@ -160,12 +162,8 @@ export default function useBackgroundAudio({
           return
         }
         if (requestId !== backgroundRequestId) return
-        if (audible) {
-          removeUnlockListeners()
-          fadeAudio(backgroundAudio, 1, "background")
-        } else {
-          addUnlockListeners()
-        }
+        removeUnlockListeners()
+        fadeAudio(backgroundAudio, 1, "background")
       } catch {
         if (
           !disposed &&
@@ -202,7 +200,7 @@ export default function useBackgroundAudio({
         return
       }
       if (!isActivationEvent) lastUnlockAttemptAt = now
-      void attemptBackgroundPlayback(true)
+      void attemptBackgroundPlayback()
     }
 
     function resumeBackground() {
@@ -299,6 +297,7 @@ export default function useBackgroundAudio({
       backgroundPlayInFlight = true
       cancelBackgroundFade()
       removeUnlockListeners()
+      backgroundAudio.defaultMuted = false
       backgroundAudio.muted = false
       backgroundAudio.volume = 0
 
@@ -337,6 +336,7 @@ export default function useBackgroundAudio({
         ++backgroundRequestId
         backgroundPlayInFlight = false
         cancelBackgroundFade()
+        backgroundAudio.defaultMuted = false
         backgroundAudio.muted = false
 
         if (!enabled) {
@@ -367,7 +367,7 @@ export default function useBackgroundAudio({
 
     if (soundEnabledRef.current && !deferInitialStartup) {
       addUnlockListeners()
-      void attemptBackgroundPlayback(false)
+      void attemptBackgroundPlayback()
     }
 
     return () => {

@@ -481,21 +481,67 @@ header,
 
 @media (prefers-reduced-motion: reduce) {
   .entry-cover-axis,
-  .entry-cover-axis-horizontal::after,
   .entry-cover-register,
   .entry-cover-identity,
   .entry-cover-name span,
   .entry-cover-disciplines span {
-    opacity: 1;
-    animation: none;
     transform: none;
+    animation-name: entry-reduced-reveal;
+    animation-duration: 0.55s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
   }
 
-  .entry-cover,
-  .entry-cover-name span,
+  .entry-cover-axis-horizontal {
+    animation-delay: 0.1s;
+  }
+
+  .entry-cover-axis-vertical,
+  .entry-cover-register {
+    animation-delay: 0.25s;
+  }
+
+  .entry-cover-identity {
+    animation-delay: 0.4s;
+  }
+
+  .entry-cover-name span:first-child {
+    animation-delay: 0.65s;
+  }
+
+  .entry-cover-name span:last-child {
+    animation-delay: 0.85s;
+  }
+
+  .entry-cover-disciplines span:first-child {
+    animation-delay: 1.05s;
+  }
+
+  .entry-cover-disciplines span:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+
+  .entry-cover-disciplines span:last-child {
+    animation-delay: 1.35s;
+  }
+
+  .entry-cover-axis-horizontal::after {
+    display: none;
+  }
+
+  .entry-cover {
+    transition-duration: 0.12s;
+  }
+
   .entry-cover-rule,
   .entry-cover-enter {
-    transition-duration: 0.01ms;
+    transition-duration: 0.35s;
+  }
+}
+
+@keyframes entry-reduced-reveal {
+  to {
+    opacity: 1;
   }
 }
 

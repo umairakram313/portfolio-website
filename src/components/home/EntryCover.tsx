@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 
 const COVER_EXIT_DURATION_MS = 900
 const ENTRY_REVEAL_DELAY_MS = 1900
+const REDUCED_MOTION_REVEAL_DELAY_MS = 1700
 const REDUCED_MOTION_EXIT_DURATION_MS = 30
 
 type EntryCoverProps = {
@@ -36,7 +37,7 @@ export default function EntryCover({
     })
     revealTimerRef.current = window.setTimeout(
       () => setIsReady(true),
-      reducedMotion ? 0 : ENTRY_REVEAL_DELAY_MS,
+      reducedMotion ? REDUCED_MOTION_REVEAL_DELAY_MS : ENTRY_REVEAL_DELAY_MS,
     )
 
     return () => {
