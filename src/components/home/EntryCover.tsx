@@ -10,8 +10,10 @@ type EntryCoverProps = {
 }
 
 export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
+  const [isPlaying, setIsPlaying] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
+  const animationFrameRef = useRef<number | null>(null)
   const revealTimerRef = useRef<number | null>(null)
   const exitTimerRef = useRef<number | null>(null)
 
@@ -21,6 +23,11 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
       "(prefers-reduced-motion: reduce)",
     ).matches
     document.body.style.overflow = "hidden"
+    animationFrameRef.current = window.requestAnimationFrame(() => {
+      animationFrameRef.current = window.requestAnimationFrame(() => {
+        setIsPlaying(true)
+      })
+    })
     revealTimerRef.current = window.setTimeout(
       () => setIsReady(true),
       reducedMotion ? 0 : ENTRY_REVEAL_DELAY_MS,
@@ -28,6 +35,9 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
 
     return () => {
       document.body.style.overflow = previousOverflow
+      if (animationFrameRef.current) {
+        window.cancelAnimationFrame(animationFrameRef.current)
+      }
       if (revealTimerRef.current) window.clearTimeout(revealTimerRef.current)
       if (exitTimerRef.current) window.clearTimeout(exitTimerRef.current)
     }
@@ -50,9 +60,9 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
 
   return (
     <section
-      className={`entry-cover${isReady ? " is-ready" : ""}${
-        isExiting ? " is-exiting" : ""
-      }`}
+      className={`entry-cover${isPlaying ? " is-playing" : ""}${
+        isReady ? " is-ready" : ""
+      }${isExiting ? " is-exiting" : ""}`}
       aria-label="Website introduction"
     >
       <div className="entry-cover-atmosphere" aria-hidden="true">

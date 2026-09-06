@@ -292,6 +292,46 @@ export default function useBackgroundAudio({
       }
     }
 
+    function startBackgroundFromUserGesture() {
+      if (!soundEnabledRef.current || listeningAudio) return
+
+      const requestId = ++backgroundRequestId
+      backgroundPlayInFlight = true
+      cancelBackgroundFade()
+      removeUnlockListeners()
+      backgroundAudio.muted = false
+      backgroundAudio.volume = 0
+
+      const playback = backgroundAudio.play()
+      void playback
+        .then(() => {
+          if (
+            disposed ||
+            requestId !== backgroundRequestId ||
+            !soundEnabledRef.current ||
+            listeningAudio
+          ) {
+            backgroundAudio.pause()
+            return
+          }
+          fadeAudio(backgroundAudio, 1, "background")
+        })
+        .catch(() => {
+          if (
+            !disposed &&
+            requestId === backgroundRequestId &&
+            soundEnabledRef.current
+          ) {
+            addUnlockListeners()
+          }
+        })
+        .finally(() => {
+          if (requestId === backgroundRequestId) {
+            backgroundPlayInFlight = false
+          }
+        })
+    }
+
     controllerRef.current = {
       setBackgroundEnabled(enabled) {
         ++backgroundRequestId
@@ -310,47 +350,11 @@ export default function useBackgroundAudio({
           }
         } else if (!listeningAudio) {
           backgroundAudio.volume = 0
-          void attemptBackgroundPlayback()
+          startBackgroundFromUserGesture()
         }
       },
       unlockFromUserGesture() {
-        if (!soundEnabledRef.current || listeningAudio) return
-
-        const requestId = ++backgroundRequestId
-        backgroundPlayInFlight = true
-        cancelBackgroundFade()
-        removeUnlockListeners()
-        backgroundAudio.muted = false
-        backgroundAudio.volume = 0
-
-        const playback = backgroundAudio.play()
-        void playback
-          .then(() => {
-            if (
-              disposed ||
-              requestId !== backgroundRequestId ||
-              !soundEnabledRef.current ||
-              listeningAudio
-            ) {
-              backgroundAudio.pause()
-              return
-            }
-            fadeAudio(backgroundAudio, 1, "background")
-          })
-          .catch(() => {
-            if (
-              !disposed &&
-              requestId === backgroundRequestId &&
-              soundEnabledRef.current
-            ) {
-              addUnlockListeners()
-            }
-          })
-          .finally(() => {
-            if (requestId === backgroundRequestId) {
-              backgroundPlayInFlight = false
-            }
-          })
+        startBackgroundFromUserGesture()
       },
       toggleListeningTrack(url) {
         if (listeningAudio && activeListeningUrlRef.current === url) {
