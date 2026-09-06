@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
 const SOUNDTRACK_URL = `${import.meta.env.BASE_URL}audio/site-soundtrack.mp3`
-const SOUND_PREFERENCE_KEY = "background-music-muted"
+const SOUND_PREFERENCE_KEY = "background-music-user-muted-v2"
+const LEGACY_SOUND_PREFERENCE_KEY = "background-music-muted"
 const FADE_DURATION_MS = 850
 const UNLOCK_EVENTS = ["pointerdown", "touchstart", "keydown"] as const
 const UNLOCK_LISTENER_OPTIONS = { capture: true, passive: true } as const
@@ -13,6 +14,7 @@ type AudioController = {
 
 function readInitialSoundPreference() {
   try {
+    localStorage.removeItem(LEGACY_SOUND_PREFERENCE_KEY)
     return localStorage.getItem(SOUND_PREFERENCE_KEY) !== "true"
   } catch {
     return true
