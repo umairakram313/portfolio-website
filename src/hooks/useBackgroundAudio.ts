@@ -3,20 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react"
 const SOUNDTRACK_URL = `${import.meta.env.BASE_URL}audio/site-soundtrack.mp3`
 const SOUND_PREFERENCE_KEY = "background-music-muted"
 const FADE_DURATION_MS = 850
-const RETRY_THROTTLE_MS = 700
-const ACTIVATION_EVENTS = [
-  "pointerdown",
-  "click",
-  "touchend",
-  "keydown",
-] as const
-const FALLBACK_EVENTS = ["scroll", "wheel"] as const
-const UNLOCK_EVENTS = [...ACTIVATION_EVENTS, ...FALLBACK_EVENTS] as const
+const UNLOCK_EVENTS = ["pointerdown", "touchstart", "keydown"] as const
 const UNLOCK_LISTENER_OPTIONS = { capture: true, passive: true } as const
 
 type AudioController = {
   setBackgroundEnabled: (enabled: boolean) => void
-  unlockFromUserGesture: () => void
   toggleListeningTrack: (url: string) => void
 }
 
@@ -32,13 +23,7 @@ function clampVolume(volume: number) {
   return Math.min(Math.max(volume, 0), 1)
 }
 
-type BackgroundAudioOptions = {
-  deferInitialStartup?: boolean
-}
-
-export default function useBackgroundAudio({
-  deferInitialStartup = false,
-}: BackgroundAudioOptions = {}) {
+export default function useBackgroundAudio() {
   const [soundEnabled, setSoundEnabled] = useState(readInitialSoundPreference)
   const [activeListeningUrl, setActiveListeningUrl] = useState<string | null>(
     null,
@@ -57,7 +42,6 @@ export default function useBackgroundAudio({
     let backgroundPlayInFlight = false
     let backgroundRequestId = 0
     let listeningRequestId = 0
-    let lastUnlockAttemptAt = 0
     let disposed = false
 
     backgroundAudio.loop = true
@@ -138,14 +122,14 @@ export default function useBackgroundAudio({
       listeningForUnlock = true
     }
 
-    async function attemptBackgroundPlayback() {
+    function startBackgroundAudio() {
       if (
         disposed ||
         !soundEnabledRef.current ||
         listeningAudio ||
         backgroundPlayInFlight
       ) {
-        return
+        return Promise.resolve()
       }
 
       const requestId = ++backgroundRequestId
@@ -155,26 +139,37 @@ export default function useBackgroundAudio({
       backgroundAudio.defaultMuted = false
       backgroundAudio.muted = false
 
-      try {
-        await backgroundAudio.play()
-        if (disposed || !soundEnabledRef.current || listeningAudio) {
-          backgroundAudio.pause()
-          return
-        }
-        if (requestId !== backgroundRequestId) return
-        removeUnlockListeners()
-        fadeAudio(backgroundAudio, 1, "background")
-      } catch {
-        if (
-          !disposed &&
-          requestId === backgroundRequestId &&
-          soundEnabledRef.current
-        ) {
-          addUnlockListeners()
-        }
-      } finally {
-        if (requestId === backgroundRequestId) backgroundPlayInFlight = false
-      }
+      const playback = backgroundAudio.play()
+      void playback
+        .then(() => {
+          if (
+            disposed ||
+            requestId !== backgroundRequestId ||
+            !soundEnabledRef.current ||
+            listeningAudio
+          ) {
+            backgroundAudio.pause()
+            return
+          }
+          removeUnlockListeners()
+          fadeAudio(backgroundAudio, 1, "background")
+        })
+        .catch(() => {
+          if (
+            !disposed &&
+            requestId === backgroundRequestId &&
+            soundEnabledRef.current
+          ) {
+            addUnlockListeners()
+          }
+        })
+        .finally(() => {
+          if (requestId === backgroundRequestId) {
+            backgroundPlayInFlight = false
+          }
+        })
+
+      return playback
     }
 
     function handleUnlock(event: Event) {
@@ -184,28 +179,13 @@ export default function useBackgroundAudio({
         return
       }
 
-      const isActivationEvent = ACTIVATION_EVENTS.includes(
-        event.type as typeof ACTIVATION_EVENTS[number],
-      )
-      const userActivation = (navigator as Navigator & {
-        userActivation?: { isActive: boolean }
-      }).userActivation
-      if (isActivationEvent && userActivation && !userActivation.isActive) {
-        return
-      }
-
-      const now = performance.now()
       if (backgroundPlayInFlight) return
-      if (!isActivationEvent && now - lastUnlockAttemptAt < RETRY_THROTTLE_MS) {
-        return
-      }
-      if (!isActivationEvent) lastUnlockAttemptAt = now
-      void attemptBackgroundPlayback()
+      void startBackgroundAudio()
     }
 
     function resumeBackground() {
       if (soundEnabledRef.current && !disposed) {
-        void attemptBackgroundPlayback()
+        void startBackgroundAudio()
       }
     }
 
@@ -290,47 +270,6 @@ export default function useBackgroundAudio({
       }
     }
 
-    function startBackgroundFromUserGesture() {
-      if (!soundEnabledRef.current || listeningAudio) return
-
-      const requestId = ++backgroundRequestId
-      backgroundPlayInFlight = true
-      cancelBackgroundFade()
-      removeUnlockListeners()
-      backgroundAudio.defaultMuted = false
-      backgroundAudio.muted = false
-      backgroundAudio.volume = 0
-
-      const playback = backgroundAudio.play()
-      void playback
-        .then(() => {
-          if (
-            disposed ||
-            requestId !== backgroundRequestId ||
-            !soundEnabledRef.current ||
-            listeningAudio
-          ) {
-            backgroundAudio.pause()
-            return
-          }
-          fadeAudio(backgroundAudio, 1, "background")
-        })
-        .catch(() => {
-          if (
-            !disposed &&
-            requestId === backgroundRequestId &&
-            soundEnabledRef.current
-          ) {
-            addUnlockListeners()
-          }
-        })
-        .finally(() => {
-          if (requestId === backgroundRequestId) {
-            backgroundPlayInFlight = false
-          }
-        })
-    }
-
     controllerRef.current = {
       setBackgroundEnabled(enabled) {
         ++backgroundRequestId
@@ -349,12 +288,8 @@ export default function useBackgroundAudio({
             })
           }
         } else if (!listeningAudio) {
-          backgroundAudio.volume = 0
-          startBackgroundFromUserGesture()
+          void startBackgroundAudio()
         }
-      },
-      unlockFromUserGesture() {
-        startBackgroundFromUserGesture()
       },
       toggleListeningTrack(url) {
         if (listeningAudio && activeListeningUrlRef.current === url) {
@@ -365,9 +300,8 @@ export default function useBackgroundAudio({
       },
     }
 
-    if (soundEnabledRef.current && !deferInitialStartup) {
-      addUnlockListeners()
-      void attemptBackgroundPlayback()
+    if (soundEnabledRef.current) {
+      void startBackgroundAudio()
     }
 
     return () => {
@@ -403,16 +337,11 @@ export default function useBackgroundAudio({
     controllerRef.current?.toggleListeningTrack(url)
   }, [])
 
-  const unlockFromUserGesture = useCallback(() => {
-    controllerRef.current?.unlockFromUserGesture()
-  }, [])
-
   return {
     soundEnabled,
     toggleSound,
     activeListeningUrl,
     listeningTrackPlaying,
     toggleListeningTrack,
-    unlockFromUserGesture,
   }
 }

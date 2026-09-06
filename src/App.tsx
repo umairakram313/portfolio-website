@@ -29,8 +29,7 @@ export default function App() {
     activeListeningUrl,
     listeningTrackPlaying,
     toggleListeningTrack,
-    unlockFromUserGesture,
-  } = useBackgroundAudio({ deferInitialStartup: entryCoverVisible })
+  } = useBackgroundAudio()
 
   function handleEntry() {
     try {
@@ -44,7 +43,6 @@ export default function App() {
     <>
       {entryCoverVisible && (
         <EntryCover
-          onUnlockAudio={unlockFromUserGesture}
           onEnter={handleEntry}
           onExited={() => setEntryCoverVisible(false)}
         />
