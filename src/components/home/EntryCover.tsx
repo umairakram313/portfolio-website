@@ -5,17 +5,23 @@ const ENTRY_REVEAL_DELAY_MS = 1900
 const REDUCED_MOTION_EXIT_DURATION_MS = 30
 
 type EntryCoverProps = {
+  onUnlockAudio: () => void
   onEnter: () => void
   onExited: () => void
 }
 
-export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
+export default function EntryCover({
+  onUnlockAudio,
+  onEnter,
+  onExited,
+}: EntryCoverProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const revealTimerRef = useRef<number | null>(null)
   const exitTimerRef = useRef<number | null>(null)
+  const audioUnlockHandledRef = useRef(false)
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -46,6 +52,10 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
   function handleEnter() {
     if (!isReady || isExiting) return
 
+    if (!audioUnlockHandledRef.current) {
+      audioUnlockHandledRef.current = true
+      onUnlockAudio()
+    }
     onEnter()
     setIsExiting(true)
 
@@ -56,6 +66,12 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
       onExited,
       reducedMotion ? REDUCED_MOTION_EXIT_DURATION_MS : COVER_EXIT_DURATION_MS,
     )
+  }
+
+  function handlePointerDown() {
+    if (!isReady || isExiting || audioUnlockHandledRef.current) return
+    audioUnlockHandledRef.current = true
+    onUnlockAudio()
   }
 
   return (
@@ -95,6 +111,7 @@ export default function EntryCover({ onEnter, onExited }: EntryCoverProps) {
           <button
             type="button"
             className="entry-cover-enter"
+            onPointerDown={handlePointerDown}
             onClick={handleEnter}
             disabled={!isReady || isExiting}
             aria-label="Enter Umair Akram's website"

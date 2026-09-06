@@ -33,7 +33,6 @@ export default function App() {
   } = useBackgroundAudio({ deferInitialStartup: entryCoverVisible })
 
   function handleEntry() {
-    unlockFromUserGesture()
     try {
       sessionStorage.setItem(ENTRY_SESSION_KEY, "true")
     } catch {
@@ -45,6 +44,7 @@ export default function App() {
     <>
       {entryCoverVisible && (
         <EntryCover
+          onUnlockAudio={unlockFromUserGesture}
           onEnter={handleEntry}
           onExited={() => setEntryCoverVisible(false)}
         />

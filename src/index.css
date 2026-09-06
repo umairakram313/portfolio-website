@@ -339,7 +339,7 @@ header,
   justify-content: space-between;
   gap: 0.9rem;
   min-width: min(76%, 42rem);
-  min-height: clamp(5.75rem, 8vw, 7.75rem);
+  min-height: clamp(7rem, 9vw, 9rem);
   padding-inline: clamp(1rem, 2.4vw, 2rem);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -350,7 +350,8 @@ header,
   text-transform: uppercase;
   opacity: 0;
   transform: translateY(0.55rem);
-  transition: color 0.2s ease, opacity 0.55s ease, transform 0.55s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.55s ease,
+    transform 0.55s ease;
 }
 
 .entry-cover.is-ready .entry-cover-enter {
@@ -366,6 +367,7 @@ header,
 
 .entry-cover-enter:hover,
 .entry-cover-enter:focus-visible {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
   color: var(--foreground);
 }
 
