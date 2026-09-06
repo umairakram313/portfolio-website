@@ -4,14 +4,15 @@ const SOUNDTRACK_URL = `${import.meta.env.BASE_URL}audio/site-soundtrack.mp3`
 const SOUND_PREFERENCE_KEY = "background-music-muted"
 const FADE_DURATION_MS = 850
 const RETRY_THROTTLE_MS = 700
-const UNLOCK_EVENTS = [
-  "scroll",
-  "wheel",
-  "touchstart",
-  "touchmove",
+const ACTIVATION_EVENTS = [
   "pointerdown",
+  "click",
+  "touchend",
   "keydown",
 ] as const
+const FALLBACK_EVENTS = ["scroll", "wheel"] as const
+const UNLOCK_EVENTS = [...ACTIVATION_EVENTS, ...FALLBACK_EVENTS] as const
+const UNLOCK_LISTENER_OPTIONS = { capture: true, passive: true } as const
 
 type AudioController = {
   setBackgroundEnabled: (enabled: boolean) => void
@@ -55,6 +56,7 @@ export default function useBackgroundAudio() {
     backgroundAudio.loop = true
     backgroundAudio.preload = "auto"
     backgroundAudio.volume = 0
+    backgroundAudio.muted = true
 
     function cancelBackgroundFade() {
       if (backgroundFadeFrame) {
@@ -106,7 +108,11 @@ export default function useBackgroundAudio() {
     function removeUnlockListeners() {
       if (!listeningForUnlock) return
       for (const eventName of UNLOCK_EVENTS) {
-        document.removeEventListener(eventName, handleUnlock)
+        document.removeEventListener(
+          eventName,
+          handleUnlock,
+          UNLOCK_LISTENER_OPTIONS,
+        )
       }
       listeningForUnlock = false
     }
@@ -114,12 +120,16 @@ export default function useBackgroundAudio() {
     function addUnlockListeners() {
       if (listeningForUnlock || disposed || !soundEnabledRef.current) return
       for (const eventName of UNLOCK_EVENTS) {
-        document.addEventListener(eventName, handleUnlock, { passive: true })
+        document.addEventListener(
+          eventName,
+          handleUnlock,
+          UNLOCK_LISTENER_OPTIONS,
+        )
       }
       listeningForUnlock = true
     }
 
-    async function attemptBackgroundPlayback() {
+    async function attemptBackgroundPlayback(audible = true) {
       if (
         disposed ||
         !soundEnabledRef.current ||
@@ -133,6 +143,7 @@ export default function useBackgroundAudio() {
       backgroundPlayInFlight = true
       cancelBackgroundFade()
       backgroundAudio.volume = 0
+      backgroundAudio.muted = !audible
 
       try {
         await backgroundAudio.play()
@@ -145,8 +156,12 @@ export default function useBackgroundAudio() {
           backgroundAudio.pause()
           return
         }
-        removeUnlockListeners()
-        fadeAudio(backgroundAudio, 1, "background")
+        if (audible) {
+          removeUnlockListeners()
+          fadeAudio(backgroundAudio, 1, "background")
+        } else {
+          addUnlockListeners()
+        }
       } catch {
         if (
           !disposed &&
@@ -167,15 +182,23 @@ export default function useBackgroundAudio() {
         return
       }
 
-      const now = performance.now()
-      if (
-        backgroundPlayInFlight ||
-        now - lastUnlockAttemptAt < RETRY_THROTTLE_MS
-      ) {
+      const isActivationEvent = ACTIVATION_EVENTS.includes(
+        event.type as typeof ACTIVATION_EVENTS[number],
+      )
+      const userActivation = (navigator as Navigator & {
+        userActivation?: { isActive: boolean }
+      }).userActivation
+      if (isActivationEvent && userActivation && !userActivation.isActive) {
         return
       }
-      lastUnlockAttemptAt = now
-      void attemptBackgroundPlayback()
+
+      const now = performance.now()
+      if (backgroundPlayInFlight) return
+      if (!isActivationEvent && now - lastUnlockAttemptAt < RETRY_THROTTLE_MS) {
+        return
+      }
+      if (!isActivationEvent) lastUnlockAttemptAt = now
+      void attemptBackgroundPlayback(true)
     }
 
     function resumeBackground() {
@@ -217,6 +240,7 @@ export default function useBackgroundAudio() {
       ++backgroundRequestId
       backgroundPlayInFlight = false
       cancelBackgroundFade()
+      backgroundAudio.muted = false
 
       if (listeningAudio) {
         cancelListeningFade()
@@ -269,6 +293,7 @@ export default function useBackgroundAudio() {
         ++backgroundRequestId
         backgroundPlayInFlight = false
         cancelBackgroundFade()
+        backgroundAudio.muted = false
 
         if (!enabled) {
           removeUnlockListeners()
@@ -293,7 +318,10 @@ export default function useBackgroundAudio() {
       },
     }
 
-    if (soundEnabledRef.current) void attemptBackgroundPlayback()
+    if (soundEnabledRef.current) {
+      addUnlockListeners()
+      void attemptBackgroundPlayback(false)
+    }
 
     return () => {
       disposed = true
