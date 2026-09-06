@@ -16,6 +16,7 @@ const UNLOCK_LISTENER_OPTIONS = { capture: true, passive: true } as const
 
 type AudioController = {
   setBackgroundEnabled: (enabled: boolean) => void
+  unlockFromUserGesture: () => void
   toggleListeningTrack: (url: string) => void
 }
 
@@ -147,15 +148,11 @@ export default function useBackgroundAudio() {
 
       try {
         await backgroundAudio.play()
-        if (
-          disposed ||
-          requestId !== backgroundRequestId ||
-          !soundEnabledRef.current ||
-          listeningAudio
-        ) {
+        if (disposed || !soundEnabledRef.current || listeningAudio) {
           backgroundAudio.pause()
           return
         }
+        if (requestId !== backgroundRequestId) return
         if (audible) {
           removeUnlockListeners()
           fadeAudio(backgroundAudio, 1, "background")
@@ -309,6 +306,12 @@ export default function useBackgroundAudio() {
           void attemptBackgroundPlayback()
         }
       },
+      unlockFromUserGesture() {
+        if (!soundEnabledRef.current || listeningAudio) return
+        ++backgroundRequestId
+        backgroundPlayInFlight = false
+        void attemptBackgroundPlayback(true)
+      },
       toggleListeningTrack(url) {
         if (listeningAudio && activeListeningUrlRef.current === url) {
           stopListeningTrack()
@@ -356,11 +359,16 @@ export default function useBackgroundAudio() {
     controllerRef.current?.toggleListeningTrack(url)
   }, [])
 
+  const unlockFromUserGesture = useCallback(() => {
+    controllerRef.current?.unlockFromUserGesture()
+  }, [])
+
   return {
     soundEnabled,
     toggleSound,
     activeListeningUrl,
     listeningTrackPlaying,
     toggleListeningTrack,
+    unlockFromUserGesture,
   }
 }

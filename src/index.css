@@ -113,6 +113,157 @@ header,
   outline-offset: 4px;
 }
 
+/* Entry cover: the opening leaf of the publication */
+.entry-cover {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  opacity: 1;
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.entry-cover.is-exiting {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-1.25rem);
+}
+
+.entry-cover-frame {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: min(100%, 90rem);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.entry-cover-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-metadata);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.entry-cover-title-group {
+  align-self: center;
+  padding-block: 2rem;
+}
+
+.entry-cover-discipline {
+  margin-bottom: clamp(1rem, 2.5vw, 2rem);
+  color: var(--metadata-foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-metadata);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.entry-cover-name {
+  max-width: 10ch;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(4rem, 11vw, 9.5rem);
+  font-weight: 300;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.entry-cover.is-exiting .entry-cover-name {
+  transform: translateX(1rem);
+}
+
+.entry-cover-action-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.entry-cover-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border);
+  transform-origin: left center;
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.entry-cover.is-exiting .entry-cover-rule {
+  transform: scaleX(0.18);
+}
+
+.entry-cover-enter {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  min-width: 7rem;
+  min-height: 2.75rem;
+  color: var(--accent-readable);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-align: right;
+  text-transform: uppercase;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.entry-cover-enter:hover,
+.entry-cover-enter:focus-visible {
+  color: var(--foreground);
+  transform: translateX(0.2rem);
+}
+
+.entry-cover-enter:disabled {
+  cursor: default;
+}
+
+@media (max-width: 639px) {
+  .entry-cover-frame {
+    padding: 1.5rem;
+  }
+
+  .entry-cover-name {
+    max-width: 7ch;
+    font-size: clamp(3.5rem, 20vw, 6rem);
+    line-height: 0.86;
+  }
+
+  .entry-cover-discipline {
+    max-width: 24rem;
+    line-height: 1.7;
+  }
+
+  .entry-cover-action-row {
+    position: relative;
+    padding-right: 7rem;
+  }
+
+  .entry-cover-enter {
+    position: fixed;
+    z-index: 1;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    padding-left: 1rem;
+    background: var(--background);
+  }
+
+  .entry-cover-enter:hover,
+  .entry-cover-enter:focus-visible {
+    transform: translateX(0.2rem);
+  }
+}
+
 .skip-link {
   position: fixed;
   z-index: 100;

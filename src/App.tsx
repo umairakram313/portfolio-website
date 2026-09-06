@@ -1,3 +1,5 @@
+import { useState } from "react"
+import EntryCover from "./components/home/EntryCover"
 import CurrentlySection from "./components/home/CurrentlySection"
 import ExperienceSection from "./components/home/ExperienceSection"
 import Hero from "./components/home/Hero"
@@ -15,27 +17,41 @@ export default function App() {
     activeListeningUrl,
     listeningTrackPlaying,
     toggleListeningTrack,
+    unlockFromUserGesture,
   } = useBackgroundAudio()
+  const [entryCoverVisible, setEntryCoverVisible] = useState(true)
 
   return (
-    <div className="min-h-full bg-background text-foreground">
-      <a className="skip-link" href="#main-content">
-        Skip to main content
-      </a>
-      <SiteHeader soundEnabled={soundEnabled} onToggleSound={toggleSound} />
-      <main id="main-content">
-        <Hero />
-        <ProjectsSection />
-        <ThoughtsSection />
-        <ExperienceSection />
-        <CurrentlySection
-          activeListeningUrl={activeListeningUrl}
-          listeningTrackPlaying={listeningTrackPlaying}
-          onToggleListeningTrack={toggleListeningTrack}
+    <>
+      {entryCoverVisible && (
+        <EntryCover
+          onEnter={unlockFromUserGesture}
+          onExited={() => setEntryCoverVisible(false)}
         />
-        <SignatureInterlude />
-      </main>
-      <SiteFooter />
-    </div>
+      )}
+      <div
+        className="min-h-full bg-background text-foreground"
+        inert={entryCoverVisible}
+        aria-hidden={entryCoverVisible}
+      >
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
+        <SiteHeader soundEnabled={soundEnabled} onToggleSound={toggleSound} />
+        <main id="main-content">
+          <Hero />
+          <ProjectsSection />
+          <ThoughtsSection />
+          <ExperienceSection />
+          <CurrentlySection
+            activeListeningUrl={activeListeningUrl}
+            listeningTrackPlaying={listeningTrackPlaying}
+            onToggleListeningTrack={toggleListeningTrack}
+          />
+          <SignatureInterlude />
+        </main>
+        <SiteFooter />
+      </div>
+    </>
   )
 }
