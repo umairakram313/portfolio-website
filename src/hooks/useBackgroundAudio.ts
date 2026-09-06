@@ -32,7 +32,13 @@ function clampVolume(volume: number) {
   return Math.min(Math.max(volume, 0), 1)
 }
 
-export default function useBackgroundAudio() {
+type BackgroundAudioOptions = {
+  deferInitialStartup?: boolean
+}
+
+export default function useBackgroundAudio({
+  deferInitialStartup = false,
+}: BackgroundAudioOptions = {}) {
   const [soundEnabled, setSoundEnabled] = useState(readInitialSoundPreference)
   const [activeListeningUrl, setActiveListeningUrl] = useState<string | null>(
     null,
@@ -58,6 +64,7 @@ export default function useBackgroundAudio() {
     backgroundAudio.preload = "auto"
     backgroundAudio.volume = 0
     backgroundAudio.muted = true
+    backgroundAudio.load()
 
     function cancelBackgroundFade() {
       if (backgroundFadeFrame) {
@@ -308,9 +315,42 @@ export default function useBackgroundAudio() {
       },
       unlockFromUserGesture() {
         if (!soundEnabledRef.current || listeningAudio) return
-        ++backgroundRequestId
-        backgroundPlayInFlight = false
-        void attemptBackgroundPlayback(true)
+
+        const requestId = ++backgroundRequestId
+        backgroundPlayInFlight = true
+        cancelBackgroundFade()
+        removeUnlockListeners()
+        backgroundAudio.muted = false
+        backgroundAudio.volume = 0
+
+        const playback = backgroundAudio.play()
+        void playback
+          .then(() => {
+            if (
+              disposed ||
+              requestId !== backgroundRequestId ||
+              !soundEnabledRef.current ||
+              listeningAudio
+            ) {
+              backgroundAudio.pause()
+              return
+            }
+            fadeAudio(backgroundAudio, 1, "background")
+          })
+          .catch(() => {
+            if (
+              !disposed &&
+              requestId === backgroundRequestId &&
+              soundEnabledRef.current
+            ) {
+              addUnlockListeners()
+            }
+          })
+          .finally(() => {
+            if (requestId === backgroundRequestId) {
+              backgroundPlayInFlight = false
+            }
+          })
       },
       toggleListeningTrack(url) {
         if (listeningAudio && activeListeningUrlRef.current === url) {
@@ -321,7 +361,7 @@ export default function useBackgroundAudio() {
       },
     }
 
-    if (soundEnabledRef.current) {
+    if (soundEnabledRef.current && !deferInitialStartup) {
       addUnlockListeners()
       void attemptBackgroundPlayback(false)
     }

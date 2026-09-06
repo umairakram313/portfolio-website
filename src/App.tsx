@@ -10,7 +10,19 @@ import SiteFooter from "./components/SiteFooter"
 import SiteHeader from "./components/SiteHeader"
 import useBackgroundAudio from "./hooks/useBackgroundAudio"
 
+const ENTRY_SESSION_KEY = "portfolio-entry-seen"
+
+function shouldShowEntryCover() {
+  try {
+    return sessionStorage.getItem(ENTRY_SESSION_KEY) !== "true"
+  } catch {
+    return true
+  }
+}
+
 export default function App() {
+  const [entryCoverVisible, setEntryCoverVisible] =
+    useState(shouldShowEntryCover)
   const {
     soundEnabled,
     toggleSound,
@@ -18,14 +30,22 @@ export default function App() {
     listeningTrackPlaying,
     toggleListeningTrack,
     unlockFromUserGesture,
-  } = useBackgroundAudio()
-  const [entryCoverVisible, setEntryCoverVisible] = useState(true)
+  } = useBackgroundAudio({ deferInitialStartup: entryCoverVisible })
+
+  function handleEntry() {
+    unlockFromUserGesture()
+    try {
+      sessionStorage.setItem(ENTRY_SESSION_KEY, "true")
+    } catch {
+      // The current mounted session still enters normally when storage is unavailable.
+    }
+  }
 
   return (
     <>
       {entryCoverVisible && (
         <EntryCover
-          onEnter={unlockFromUserGesture}
+          onEnter={handleEntry}
           onExited={() => setEntryCoverVisible(false)}
         />
       )}
