@@ -42,6 +42,7 @@ export default function useBackgroundAudio() {
     let listeningFadeFrame = 0
     let listeningForUnlock = false
     let backgroundPlayInFlight = false
+    let unlockPlayInFlight = false
     let backgroundRequestId = 0
     let listeningRequestId = 0
     let disposed = false
@@ -124,24 +125,21 @@ export default function useBackgroundAudio() {
       listeningForUnlock = true
     }
 
-    function startBackgroundAudio() {
-      if (
-        disposed ||
-        !soundEnabledRef.current ||
-        listeningAudio ||
-        backgroundPlayInFlight
-      ) {
-        return Promise.resolve()
-      }
-
+    function prepareBackgroundPlayback() {
       const requestId = ++backgroundRequestId
       backgroundPlayInFlight = true
       cancelBackgroundFade()
       backgroundAudio.volume = 0
       backgroundAudio.defaultMuted = false
       backgroundAudio.muted = false
+      return requestId
+    }
 
-      const playback = backgroundAudio.play()
+    function handleBackgroundPlayback(
+      playback: Promise<void>,
+      requestId: number,
+      fromUnlock = false,
+    ) {
       void playback
         .then(() => {
           if (
@@ -166,23 +164,42 @@ export default function useBackgroundAudio() {
           }
         })
         .finally(() => {
+          if (fromUnlock) unlockPlayInFlight = false
           if (requestId === backgroundRequestId) {
             backgroundPlayInFlight = false
           }
         })
+    }
 
+    function startBackgroundAudio() {
+      if (
+        disposed ||
+        !soundEnabledRef.current ||
+        listeningAudio ||
+        backgroundPlayInFlight
+      ) {
+        return Promise.resolve()
+      }
+
+      const requestId = prepareBackgroundPlayback()
+      const playback = backgroundAudio.play()
+      handleBackgroundPlayback(playback, requestId)
       return playback
     }
 
     function handleUnlock(event: Event) {
-      if (!soundEnabledRef.current || listeningAudio) return
+      if (!soundEnabledRef.current || listeningAudio || unlockPlayInFlight) {
+        return
+      }
       const target = event.target
       if (target instanceof Element && target.closest("[data-audio-control]")) {
         return
       }
 
-      if (backgroundPlayInFlight) return
-      void startBackgroundAudio()
+      unlockPlayInFlight = true
+      const requestId = prepareBackgroundPlayback()
+      const playback = backgroundAudio.play()
+      handleBackgroundPlayback(playback, requestId, true)
     }
 
     function resumeBackground() {
@@ -303,6 +320,7 @@ export default function useBackgroundAudio() {
     }
 
     if (soundEnabledRef.current) {
+      addUnlockListeners()
       void startBackgroundAudio()
     }
 
